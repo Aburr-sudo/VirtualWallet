@@ -12,11 +12,16 @@ using namespace std;
 class Wallet;
 void printCurrentFunds(Wallet &obj);
 
-vector<string> purchaseRecords;
-vector<double> purchasePrices;
-
+int const MAX_PURCHASES = 20;
 int const MAX = 100;
 int const EMPTY = 0;
+int purchaseCounter = 0;
+
+string purchaseRecords[MAX_PURCHASES] = {};
+double purchasePrices[MAX_PURCHASES]  = {};
+
+
+
 
 /*	TO DO
  * 
@@ -157,9 +162,10 @@ while(continueLoop)
 	if(answer == 'y')
 	{
 	purchase = listPurchasePossibilities();
-//printf("how much did you spend today on %s?\n$", purchase);
-	cout << "how much did you spend today on " << purchase << "?" << endl;
+	purchaseRecords[purchaseCounter] = purchase;
+	cout << "how much did you spend today on " << purchase << "?\n$";
 	cin >> spending;
+	purchasePrices[purchaseCounter++] = spending;
 	obj.contents = obj.contents - (spending);
 
 printf("Remaining money for the week: $%.2f\n", obj.contents);
@@ -200,6 +206,22 @@ void printCurrentFunds(Wallet &obj)
 	printf("Current contents of Wallet:\n%.2f", obj.contents);
 }
 
+void purchaseLog()
+{
+	ofstream file;
+	string fileName = "Reciept.txt";
+	file.open(fileName);
+	if(file.is_open())
+	{
+	for(int i =0; i < purchaseCounter; i++)
+	{
+			file << purchaseRecords[i] << " : $" << purchasePrices[i] << "\n";
+	}
+	}
+	
+	file.close();
+}
+
 int main()
 {
 
@@ -209,6 +231,7 @@ Date date;
 reset(wallet);
 modifyWallet(wallet);
 record(wallet);
+purchaseLog();
 
 return 0;	
 }
