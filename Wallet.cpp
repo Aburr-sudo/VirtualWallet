@@ -15,6 +15,8 @@ void printCurrentFunds(Wallet &obj);
 vector<string> purchaseRecords;
 vector<double> purchasePrices;
 
+int const MAX = 100;
+int const EMPTY = 0;
 
 /*	TO DO
  * 
@@ -128,7 +130,8 @@ string listPurchasePossibilities()
 			case 4: selectionStr = "Take Out"; break;
 			case 5: selectionStr = "Medical"; break;
 			case 6: selectionStr = "Entertainment"; break;
-			case 7: selectionStr = "Other"; break;
+			case 7: printf("Type in your purchase\n");
+			cin >> selectionStr; break;
 			
 			default:
 			break;
