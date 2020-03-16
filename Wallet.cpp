@@ -210,7 +210,7 @@ void purchaseLog()
 	fstream file;
 	string date = CurrentDate();
 	string garbage;
-	string fileName = "Reciept.txt";
+	string fileName = "Receipt.txt";
 	file.open(fileName);
 	if(file.is_open())
 	{
