@@ -27,7 +27,7 @@ double purchasePrices[MAX_PURCHASES]  = {};
  * 
  * Keep log of recorded purchases
  * Stop rewriting file
- * RGrab date of purchase and put that into log file
+ * Grab date of purchase and put that into log file
  * 
  * 
  * Auto fill data into dat appropriate log
@@ -88,6 +88,7 @@ void reset(Wallet &obj)
 
 if(answer == 'y')
 {
+	cout << "resetting wallet contents to default of $100" <<endl;
 	obj.contents = 100;
 }
 else if(answer == 'n')
@@ -124,7 +125,7 @@ string listPurchasePossibilities()
 	cin >> selection;
 	if(selection <= 0 || selection > 7)
 	{
-	printf("Impermissible selection");	
+	printf("Invalid selection");	
 	}
 	else{
 		switch(selection){
@@ -181,10 +182,14 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 
 }
 
-void record(Wallet &obj)
+void recordRemainingFunds(Wallet &obj,string timestamp)
 {
 	ofstream file;
-	string text;
+//	string a = timestamp;
+//	string descriptor = "_RemainingFunds.txt";
+//	a += ".txt";
+
+//	date.append("WalletLog.txt");
 	file.open("WalletLog.txt");
 	if(file.is_open())
 	{
@@ -193,7 +198,7 @@ void record(Wallet &obj)
 	std::string line = strs.str();
 	
 	//string line = std::to_string(obj.contents);
-	text = "Remaining money for the week: ";
+	string text = "Remaining money for the week: ";
 	text.append(line);
 	file << text;
 	}
@@ -221,16 +226,27 @@ void purchaseLog()
 	
 	file.close();
 }
+// provided by Timmmm on stackoverflow
+// https://stackoverflow.com/questions/34963738/c11-get-current-date-and-time-as-string
+string CurrentDate()
+{
+    std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+    char buf[100] = {0};
+    std::strftime(buf, sizeof(buf), "%Y_%d/%m.txt", std::localtime(&now));
+    return buf;
+}
 
 int main()
 {
 
 Wallet wallet;
-Date date;
 
+string date = CurrentDate();
+cout << date <<endl;
 reset(wallet);
 modifyWallet(wallet);
-record(wallet);
+recordRemainingFunds(wallet, date);
 purchaseLog();
 
 return 0;	

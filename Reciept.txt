@@ -1,4 +1,0 @@
-Medical : $23
-Transport : $6
-Pen : $3
-Take Out : $12
