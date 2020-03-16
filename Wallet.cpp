@@ -243,6 +243,8 @@ string CurrentDate()
 void viewPurchaseHistory()
 {
 	ofstream viewFile;
+	viewFile.open("Receipt.txt");
+	 
 	
 }
 
