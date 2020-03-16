@@ -20,6 +20,8 @@ int purchaseCounter = 0;
 string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {};
 
+string CurrentDate();
+
 
 
 
@@ -108,14 +110,6 @@ else
 }
 }
 
-void getDate(Date &d)
-{
-
-printf("What is the current day of the month? (1 - 31)\n");
-cin >> d.day;
-printf("What is the current month of the year? (1- 12)\n");	
-cin >> d.month;
-}
 
 string listPurchasePossibilities()
 {
@@ -213,11 +207,19 @@ void printCurrentFunds(Wallet &obj)
 
 void purchaseLog()
 {
-	ofstream file;
+	fstream file;
+	string date = CurrentDate();
+	string garbage;
 	string fileName = "Reciept.txt";
 	file.open(fileName);
 	if(file.is_open())
 	{
+	while(getline(file, garbage))
+	{
+		//nothing, just iterate through
+	}
+	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
+	file << date << "\n";
 	for(int i =0; i < purchaseCounter; i++)
 	{
 			file << purchaseRecords[i] << " : $" << purchasePrices[i] << "\n";
@@ -228,13 +230,20 @@ void purchaseLog()
 }
 // provided by Timmmm on stackoverflow
 // https://stackoverflow.com/questions/34963738/c11-get-current-date-and-time-as-string
+//edited ".txt" to end of string
 string CurrentDate()
 {
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     char buf[100] = {0};
-    std::strftime(buf, sizeof(buf), "%Y_%d/%m.txt", std::localtime(&now));
+    std::strftime(buf, sizeof(buf), "%d/%m/%Y", std::localtime(&now));
     return buf;
+}
+
+void viewPurchaseHistory()
+{
+	ofstream viewFile;
+	
 }
 
 int main()
