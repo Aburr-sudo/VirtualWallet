@@ -7,6 +7,7 @@
 #include <time.h>
 #include <vector>
 #include <string>
+#include<set>
 
 using namespace std;
 class Wallet;
@@ -17,11 +18,12 @@ int const MAX = 100;
 int const EMPTY = 0;
 int purchaseCounter = 0;
 int hashValue = 0;
-
-int hashTable[7] = {0};
+int const PURCHASETYPES = 7;
+int hashTable[PURCHASETYPES] = {0};
 
 string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {0};
+set<string> purchaseTypesMade;
 
 string CurrentDate();
 
@@ -30,9 +32,11 @@ string CurrentDate();
 
 /*	TO DO
  * 
- * Keep log of recorded purchases
- * Stop rewriting file
- * Grab date of purchase and put that into log file
+ * 
+ * Rewrite receipt to be of most recent purchase history
+ * 
+ * be able to pull up the receipt from the menu
+ * 
  * 
  * 
  * Auto fill data into dat appropriate log
@@ -117,6 +121,7 @@ else
 string listPurchasePossibilities()
 {
 	int selection;
+	
 	string selectionStr;
 	printf("What did you purchase today\n1. Groceries\n2. Bills\n3. Transport\n4. Take Out\n5. Medical\n6. Entertainment\n7. Other\n\n");
 	cin >> selection;
@@ -149,6 +154,7 @@ string purchase;
 char answer;
 double spending;
 
+
 int day;
 int month;
 bool continueLoop = true;
@@ -160,6 +166,7 @@ while(continueLoop)
 	if(answer == 'y')
 	{
 	purchase = listPurchasePossibilities();
+	purchaseTypesMade.insert(purchase);
 	purchaseRecords[purchaseCounter] = purchase;
 	cout << "how much did you spend today on " << purchase << "?\n$";
 	cin >> spending;
@@ -209,11 +216,6 @@ void printCurrentFunds(Wallet &obj)
 	printf("Current contents of Wallet:\n%.2f", obj.contents);
 }
 
-void hashTableforData()
-{
-	
-}
-
 
 void dataLog()
 {
@@ -245,29 +247,65 @@ void dataLog()
 	file.close();
 }
 
-void purchaseLog()
+void mapToType(string input, int value)
 {
+	switch(value){
+			case 1: input = "Groceries"; hashValue = 0; break;
+			case 2: input = "Bills"; hashValue = 1; break;
+			case 3: input = "Transport"; hashValue = 2; break;
+			case 4: input = "Take Out";  hashValue = 3; break;
+			case 5: input = "Medical"; hashValue = 4; break;
+			case 6: input = "Entertainment"; hashValue = 5; break;
+			case 7: printf("Type in your purchase\n");
+			cin >> input;  hashValue = 6; break;
+			default:
+			break;
+		}
+}
+
+void viewMostrecent()
+{
+	fstream myfile;
+	myfile.open("outputData.csv");
+	vector<string> lines;
+	string line;
+	while(getline(myfile, line))
+	{
+			lines.push_back(line);
+	}
+	cout << lines.back() << line;
+}
+// make persistent
+/*void purchaseLog()
+{
+	
 	fstream file;
 	string date = CurrentDate();
 	string garbage;
-	string fileName = "Receipt.txt";
+	string fileName = "mostRecentPurchase.txt";
 	file.open(fileName);
 	if(file.is_open())
 	{
 	while(getline(file, garbage))
 	{
 		//nothing, just iterate through
+		
 	}
 	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
+
 	file << date << "\n";
 	for(int i =0; i < purchaseCounter; i++)
 	{
 			file << purchaseRecords[i] << " : $" << purchasePrices[i] << "\n";
 	}
-	}
+	}else{
+		cerr << "Error opening file" <<endl;
+		}
 	
 	file.close();
 }
+* */
+
 // provided by Timmmm on stackoverflow
 // https://stackoverflow.com/questions/34963738/c11-get-current-date-and-time-as-string
 //edited ".txt" to end of string
@@ -298,8 +336,14 @@ cout << date <<endl;
 reset(wallet);
 modifyWallet(wallet);
 recordRemainingFunds(wallet, date);
-purchaseLog();
-dataLog();
+//purchaseLog(); // populates receipt.txt file
+dataLog(); // populates dataOutput file
+
+	for (std::set<std::string>::iterator it=purchaseTypesMade.begin(); it!=purchaseTypesMade.end(); ++it)
+	    std::cout << ' ' << *it;
+	std::cout<<"\n";
+
+
 
 return 0;	
 }
