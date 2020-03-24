@@ -28,6 +28,7 @@ double purchasePrices[MAX_PURCHASES]  = {0};
 
 string CurrentDate();
 void setListofTypes();
+void viewMostrecent();
 
 
 
@@ -312,7 +313,7 @@ void viewMostrecent()
 	vector<string> splitLine;
 	string line;
 	int recentPurchases[PURCHASETYPES] = {};
-	counter = 0;
+	int counter = 0;
 	
 	while(getline(myfile, line))
 	{
@@ -399,13 +400,6 @@ modifyWallet(wallet);
 recordRemainingFunds(wallet, date);
 //purchaseLog(); // populates receipt.txt file
 dataLog(); // populates dataOutput file
-
-viewMostrecent();
-
-
-
-
-
 
 return 0;	
 }
