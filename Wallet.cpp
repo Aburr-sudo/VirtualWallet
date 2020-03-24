@@ -20,12 +20,14 @@ int purchaseCounter = 0;
 int hashValue = 0;
 int const PURCHASETYPES = 7;
 int hashTable[PURCHASETYPES] = {0};
+string hashTablePurchaseTypes[PURCHASETYPES] = "";
 
 string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {0};
-set<string> purchaseTypesMade;
+
 
 string CurrentDate();
+void setListofTypes();
 
 
 
@@ -166,7 +168,7 @@ while(continueLoop)
 	if(answer == 'y')
 	{
 	purchase = listPurchasePossibilities();
-	purchaseTypesMade.insert(purchase);
+	
 	purchaseRecords[purchaseCounter] = purchase;
 	cout << "how much did you spend today on " << purchase << "?\n$";
 	cin >> spending;
@@ -231,14 +233,14 @@ void dataLog()
 		//nothing, just iterate through
 	}
 	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
-	file << date << ", ";
+	file << date << ",";
 	for(int i =0; i < 7; i++) // remove magic numbers
 	{
 		if(i == 6)
 		{
 			file << hashTable[i]; 
 		}else{
-			file << hashTable[i] << ", ";
+			file << hashTable[i] << ",";
 		}
 	}
 	file << "\n";
@@ -247,20 +249,58 @@ void dataLog()
 	file.close();
 }
 
-void mapToType(string input, int value)
+void setListofTypes()
 {
-	switch(value){
-			case 1: input = "Groceries"; hashValue = 0; break;
-			case 2: input = "Bills"; hashValue = 1; break;
-			case 3: input = "Transport"; hashValue = 2; break;
-			case 4: input = "Take Out";  hashValue = 3; break;
-			case 5: input = "Medical"; hashValue = 4; break;
-			case 6: input = "Entertainment"; hashValue = 5; break;
-			case 7: printf("Type in your purchase\n");
-			cin >> input;  hashValue = 6; break;
-			default:
-			break;
-		}
+	int counter = 0;
+	while(counter < PURCHASETYPES)
+	{
+		if(counter == 0)
+		{
+			hashTablePurchaseTypes[0] = "Groceries";
+			counter++;
+		}else if(counter == 1)
+		{
+			hashTablePurchaseTypes[1] = "Bills";
+			counter++;
+		}else if(counter == 2)
+		{
+			hashTablePurchaseTypes[2] = "Transport";
+			counter++;
+		}else if(counter == 3)
+		{
+			hashTablePurchaseTypes[3] = "Take Out";
+			counter++;
+				}else if(counter == 4)
+		{
+			hashTablePurchaseTypes[4] = "Medical"; 
+			counter++;
+		}else if(counter == 5)
+		{
+			hashTablePurchaseTypes[5] = "Entertainment";
+			counter++;
+		}else if(counter == 6)
+		{
+			hashTablePurchaseTypes[6] = "Other";
+			counter++;
+		}else{}
+	}		
+}
+
+void choose()
+{
+	bool choice;
+	char decision;
+	cout << "Would you like to look at your recent reciepts?" << endl;
+	cin >> decision;
+	if(decision == 'y')
+	{choice = true;}else{choice = false;}
+	
+	if(choice)
+	{
+		viewMostrecent();
+	}
+		
+		
 }
 
 void viewMostrecent()
@@ -268,12 +308,33 @@ void viewMostrecent()
 	fstream myfile;
 	myfile.open("outputData.csv");
 	vector<string> lines;
+	string token;
+	vector<string> splitLine;
 	string line;
+	int recentPurchases[PURCHASETYPES] = {};
+	counter = 0;
+	
 	while(getline(myfile, line))
 	{
 			lines.push_back(line);
 	}
-	cout << lines.back() << line;
+	stringstream ss(lines.back());
+	while(getline(ss, token, ','))
+	{
+			splitLine.push_back(token);
+	}
+	cout << "MOST RECENT RECEIPT\n";
+	for(int i =0; i < 7; i++)
+	{
+			if(i == 0)
+			{
+			cout << "Date : " << splitLine.at(i) << "\n****EXPENSES****\n";	
+			}else
+			{
+				cout << hashTablePurchaseTypes[i] << " : " << splitLine.at(i)  << endl;
+			}
+	}
+
 }
 // make persistent
 /*void purchaseLog()
@@ -328,9 +389,9 @@ void viewPurchaseHistory()
 
 int main()
 {
-
+setListofTypes();
 Wallet wallet;
-
+choose();
 string date = CurrentDate();
 cout << date <<endl;
 reset(wallet);
@@ -339,9 +400,10 @@ recordRemainingFunds(wallet, date);
 //purchaseLog(); // populates receipt.txt file
 dataLog(); // populates dataOutput file
 
-	for (std::set<std::string>::iterator it=purchaseTypesMade.begin(); it!=purchaseTypesMade.end(); ++it)
-	    std::cout << ' ' << *it;
-	std::cout<<"\n";
+viewMostrecent();
+
+
+
 
 
 
