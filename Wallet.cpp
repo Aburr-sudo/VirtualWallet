@@ -28,7 +28,7 @@ double purchasePrices[MAX_PURCHASES]  = {0};
 
 string CurrentDate();
 void setListofTypes();
-void viewMostrecent();
+void viewMostrecent(bool &continueLoop);
 
 
 
@@ -40,21 +40,12 @@ void viewMostrecent();
  * 
  * be able to pull up the receipt from the menu
  * 
- * 
+ * need to disregard entries in datalog of all 0's
  * 
  * Auto fill data into dat appropriate log
  * Process that data in python 
  * 
- * How to:
- * Read in from file, use ":" token to collect money values
- * add these to a vector
- * the last item in vector is the current value of the wallet's contents
- * 
- * grab the current date and save into variable
- * append this variable to "log" text file name for a unique file for the day's purchases
- * 
  * */
-
 
 struct Wallet
 {
@@ -287,24 +278,24 @@ void setListofTypes()
 	}		
 }
 
-void choose()
+void chooseToView()
 {
 	bool choice;
 	char decision;
-	cout << "Would you like to look at your recent reciepts?" << endl;
+	cout << "Would you like to look at your recent reciepts? (y/n)" << endl;
 	cin >> decision;
 	if(decision == 'y')
 	{choice = true;}else{choice = false;}
 	
 	if(choice)
 	{
-		viewMostrecent();
+		viewMostrecent(choice);
 	}
 		
 		
 }
 
-void viewMostrecent()
+void viewMostrecent(bool &continueLoop)
 {
 	fstream myfile;
 	myfile.open("outputData.csv");
@@ -313,12 +304,16 @@ void viewMostrecent()
 	vector<string> splitLine;
 	string line;
 	int recentPurchases[PURCHASETYPES] = {};
-	int counter = 0;
+	int counter = 1;
+	char decision;
 	
 	while(getline(myfile, line))
 	{
 			lines.push_back(line);
 	}
+	while(continueLoop)
+	{
+	cout << "looper" << endl;
 	stringstream ss(lines.back());
 	while(getline(ss, token, ','))
 	{
@@ -334,6 +329,13 @@ void viewMostrecent()
 			{
 				cout << hashTablePurchaseTypes[i] << " : " << splitLine.at(i)  << endl;
 			}
+	}
+	counter++;
+	lines.pop_back();
+	cout << "look at more recent reciept? (y/n)";
+	cin >> decision;
+	if(decision == 'y')
+	{continueLoop = true;}else{continueLoop = false;}
 	}
 
 }
@@ -392,7 +394,7 @@ int main()
 {
 setListofTypes();
 Wallet wallet;
-choose();
+chooseToView();
 string date = CurrentDate();
 cout << date <<endl;
 reset(wallet);
