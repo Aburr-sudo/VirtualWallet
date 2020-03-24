@@ -16,9 +16,12 @@ int const MAX_PURCHASES = 20;
 int const MAX = 100;
 int const EMPTY = 0;
 int purchaseCounter = 0;
+int hashValue = 0;
+
+int hashTable[7] = {0};
 
 string purchaseRecords[MAX_PURCHASES] = {};
-double purchasePrices[MAX_PURCHASES]  = {};
+double purchasePrices[MAX_PURCHASES]  = {0};
 
 string CurrentDate();
 
@@ -124,14 +127,14 @@ string listPurchasePossibilities()
 	else{
 		switch(selection){
 	
-			case 1: selectionStr = "Groceries"; break;
-			case 2: selectionStr = "Bills"; break;
-			case 3: selectionStr = "Transport"; break;
-			case 4: selectionStr = "Take Out"; break;
-			case 5: selectionStr = "Medical"; break;
-			case 6: selectionStr = "Entertainment"; break;
+			case 1: selectionStr = "Groceries"; hashValue = 0; break;
+			case 2: selectionStr = "Bills"; hashValue = 1; break;
+			case 3: selectionStr = "Transport"; hashValue = 2; break;
+			case 4: selectionStr = "Take Out";  hashValue = 3; break;
+			case 5: selectionStr = "Medical"; hashValue = 4; break;
+			case 6: selectionStr = "Entertainment"; hashValue = 5; break;
 			case 7: printf("Type in your purchase\n");
-			cin >> selectionStr; break;
+			cin >> selectionStr;  hashValue = 6; break;
 			
 			default:
 			break;
@@ -162,6 +165,7 @@ while(continueLoop)
 	cin >> spending;
 	purchasePrices[purchaseCounter++] = spending;
 	obj.contents = obj.contents - (spending);
+	hashTable[hashValue] += spending;
 
 printf("Remaining money for the week: $%.2f\n", obj.contents);
 	}
@@ -203,6 +207,42 @@ void recordRemainingFunds(Wallet &obj,string timestamp)
 void printCurrentFunds(Wallet &obj)
 {
 	printf("Current contents of Wallet:\n%.2f", obj.contents);
+}
+
+void hashTableforData()
+{
+	
+}
+
+
+void dataLog()
+{
+	fstream file;
+	string date = CurrentDate();
+	string garbage;
+	string fileName = "outputData.csv";
+	file.open(fileName);
+	if(file.is_open())
+	{
+	while(getline(file, garbage))
+	{
+		//nothing, just iterate through
+	}
+	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
+	file << date << ", ";
+	for(int i =0; i < 7; i++) // remove magic numbers
+	{
+		if(i == 6)
+		{
+			file << hashTable[i]; 
+		}else{
+			file << hashTable[i] << ", ";
+		}
+	}
+	file << "\n";
+	}
+	
+	file.close();
 }
 
 void purchaseLog()
@@ -259,6 +299,7 @@ reset(wallet);
 modifyWallet(wallet);
 recordRemainingFunds(wallet, date);
 purchaseLog();
+dataLog();
 
 return 0;	
 }
