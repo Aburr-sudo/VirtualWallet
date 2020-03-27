@@ -2,7 +2,7 @@
 #include<math.h>
 #include<fstream>
 #include <chrono>
-#include <ctime>  
+#include <ctime>
 #include <sstream>
 #include <time.h>
 #include <vector>
@@ -31,30 +31,28 @@ void setListofTypes();
 void viewMostrecent(bool &continueLoop);
 
 
-
-
 /*	TODO
- * 
- * 
+ *
+ *
  * Rewrite receipt to be of most recent purchase history
- * 
+ *
  * be able to pull up the receipt from the menu
- * 
+ *
  * need to disregard entries in datalog of all 0's
 
  Add menu to make selection:
  open wallet, reset wallet, view reciept, make wallet(?)
- * 
+ *
  * Auto fill data into dat appropriate log
- * Process that data in python 
- * 
+ * Process that data in python
+ *
  * */
 
 struct Wallet
 {
 	double contents;
 	int date;
-	
+
 	Wallet()
 	{
 			contents = 0;
@@ -118,17 +116,17 @@ else
 string listPurchasePossibilities()
 {
 	int selection;
-	
+
 	string selectionStr;
 	printf("What did you purchase today\n1. Groceries\n2. Bills\n3. Transport\n4. Take Out\n5. Medical\n6. Entertainment\n7. Other\n\n");
 	cin >> selection;
 	if(selection <= 0 || selection > 7)
 	{
-	printf("Invalid selection");	
+	printf("Invalid selection");
 	}
 	else{
 		switch(selection){
-	
+
 			case 1: selectionStr = "Groceries"; hashValue = 0; break;
 			case 2: selectionStr = "Bills"; hashValue = 1; break;
 			case 3: selectionStr = "Transport"; hashValue = 2; break;
@@ -137,7 +135,7 @@ string listPurchasePossibilities()
 			case 6: selectionStr = "Entertainment"; hashValue = 5; break;
 			case 7: printf("Type in your purchase\n");
 			cin >> selectionStr;  hashValue = 6; break;
-			
+
 			default:
 			break;
 			}
@@ -163,7 +161,7 @@ while(continueLoop)
 	if(answer == 'y')
 	{
 	purchase = listPurchasePossibilities();
-	
+
 	purchaseRecords[purchaseCounter] = purchase;
 	cout << "how much did you spend today on " << purchase << "?\n$";
 	cin >> spending;
@@ -179,7 +177,7 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 		printf("Terminating program\n");
 		continueLoop = false;
 	}else{ cout << "invalid input\n" << endl;}
-	
+
 }
 
 }
@@ -198,18 +196,43 @@ void recordRemainingFunds(Wallet &obj,string timestamp)
 	std::ostringstream strs;
 	strs << obj.contents;
 	std::string line = strs.str();
-	
+
 	//string line = std::to_string(obj.contents);
 	string text = "Remaining money for the week: ";
 	text.append(line);
 	file << text;
 	}
-	
+
 	file.close();
+}
+
+bool isEmpty()
+{
+    //if hashtable is empty do not open and write to file
+    int checkIfAllEmpty = 0;
+    for(int i =0; i < PURCHASETYPES; i++)
+    {
+        if(hashTable[i] == 0)
+        {
+            checkIfAllEmpty++;
+        }
+    }
+    if(checkIfAllEmpty == 7)
+    {
+        return true;
+    }else{
+    return false;
+    }
 }
 
 void dataLog()
 {
+    //Measure to avoid empty log entries
+    if(isEmpty())
+    {
+        return;
+    }
+
 	fstream file;
 	string date = CurrentDate();
 	string garbage;
@@ -227,14 +250,14 @@ void dataLog()
 	{
 		if(i == 6)
 		{
-			file << hashTable[i]; 
+			file << hashTable[i];
 		}else{
 			file << hashTable[i] << ",";
 		}
 	}
 	file << "\n";
 	}
-	
+
 	file.close();
 }
 
@@ -261,7 +284,7 @@ void setListofTypes()
 			counter++;
 				}else if(counter == 4)
 		{
-			hashTablePurchaseTypes[4] = "Medical"; 
+			hashTablePurchaseTypes[4] = "Medical";
 			counter++;
 		}else if(counter == 5)
 		{
@@ -272,7 +295,7 @@ void setListofTypes()
 			hashTablePurchaseTypes[6] = "Other";
 			counter++;
 		}else{}
-	}		
+	}
 }
 
 void chooseToView()
@@ -283,13 +306,13 @@ void chooseToView()
 	cin >> decision;
 	if(decision == 'y')
 	{choice = true;}else{choice = false;}
-	
+
 	if(choice)
 	{
 		viewMostrecent(choice);
 	}
-		
-		
+
+
 }
 
 void viewMostrecent(bool &continueLoop)
@@ -303,7 +326,7 @@ void viewMostrecent(bool &continueLoop)
 	int recentPurchases[PURCHASETYPES] = {};
 	int counter = 1;
 	char decision;
-	
+
 	while(getline(myfile, line))
 	{
 			lines.push_back(line);
@@ -321,7 +344,7 @@ void viewMostrecent(bool &continueLoop)
 	{
 			if(i == 0)
 			{
-			cout << "Date : " << splitLine.at(i) << "\n****EXPENSES****\n";	
+			cout << "Date : " << splitLine.at(i) << "\n****EXPENSES****\n";
 			}else
 			{
 				cout << hashTablePurchaseTypes[i] << " : " << splitLine.at(i)  << endl;
@@ -339,7 +362,7 @@ void viewMostrecent(bool &continueLoop)
 // make persistent
 /*void purchaseLog()
 {
-	
+
 	fstream file;
 	string date = CurrentDate();
 	string garbage;
@@ -350,7 +373,7 @@ void viewMostrecent(bool &continueLoop)
 	while(getline(file, garbage))
 	{
 		//nothing, just iterate through
-		
+
 	}
 	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
 
@@ -362,7 +385,7 @@ void viewMostrecent(bool &continueLoop)
 	}else{
 		cerr << "Error opening file" <<endl;
 		}
-	
+
 	file.close();
 }
 * */
@@ -383,11 +406,11 @@ void viewPurchaseHistory()
 {
 	ofstream viewFile;
 	viewFile.open("Receipt.txt");
-	 
+
 }
 
 // display date, remaining funds (and wallet name)
-void displayCurrentInfo()
+void displayCurrentInfo(Wallet &obj)
 {
 	string date = CurrentDate();
  	//cout << date <<endl;
@@ -430,13 +453,16 @@ int main()
 {
 setListofTypes();
 Wallet wallet;
-chooseToView();
-//string date = CurrentDate();
+//chooseToView(); // add this as option in menu
+string date = CurrentDate();
 //cout << date <<endl;
+openMenu();
+
+
 reset(wallet);
 modifyWallet(wallet);
 recordRemainingFunds(wallet, date);
 dataLog(); // populates dataOutput file
 
-return 0;	
+return 0;
 }
