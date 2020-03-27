@@ -9,6 +9,7 @@
 #include <string>
 #include<set>
 
+
 using namespace std;
 class Wallet;
 void printCurrentFunds(Wallet &obj);
@@ -86,14 +87,16 @@ void reset(Wallet &obj)
 {
 	static int count = 0;
 	char answer;
+	int value;
 	//printCurrentFunds(obj);
 	printf("Reset Weekly Funds? (y/n)\n\n" );
 	cin >> answer;
 
 if(answer == 'y')
 {
-	cout << "resetting wallet contents to default of $100" <<endl;
-	obj.contents = 100;
+	cout << "Enter amount to reset wallet to: " <<endl;
+	cin >> value;
+	obj.contents = value;
 }
 else if(answer == 'n')
 {
@@ -174,7 +177,6 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 	else if(answer == 'n')
 	{
 		printf("Remaining money for the week: $%.2f\n", obj.contents);
-		printf("Terminating program\n");
 		continueLoop = false;
 	}else{ cout << "invalid input\n" << endl;}
 
@@ -402,13 +404,6 @@ string CurrentDate()
     return buf;
 }
 
-void viewPurchaseHistory()
-{
-	ofstream viewFile;
-	viewFile.open("Receipt.txt");
-
-}
-
 // display date, remaining funds (and wallet name)
 void displayCurrentInfo(Wallet &obj)
 {
@@ -417,19 +412,20 @@ void displayCurrentInfo(Wallet &obj)
  	printf("%S\nCurrent contents of Wallet:\n%.2f", date, obj.contents);
 }
 
-void openMenu()
+void openMenu(Wallet &wallet)
 {
+    string date = CurrentDate();
+    cout << date << endl;
 	char select;
 	cout << "Hello, please select an option below\n";
-	cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases" << endl;
-
+	cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << endl;
 	cin >> select;
 	bool continueCycle = true;
 	while(continueCycle)
 	{
 	if(select == '1')
 	{
-		//
+		reset(wallet);
 		continueCycle = false;
 	}else if(select == '2')
 	{
@@ -440,8 +436,16 @@ void openMenu()
 	{
 		//
 		continueCycle = false;
-	}else{
+	}else if(select == '4')
+	{
+	printf("Terminating program\nWriting output to data log\n\n");
+	dataLog(); // populates dataOutput file
+    exit(0);
+	}
+	else{
 		cout << "invalid selection please try again.\n Valid inputs are '1', '2' or '3'" << endl;
+        cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << endl;
+        cin >> select;
 	}
 	}
 
@@ -451,18 +455,20 @@ void openMenu()
 
 int main()
 {
+//initialise lists
 setListofTypes();
-Wallet wallet;
-//chooseToView(); // add this as option in menu
+Wallet wallet; // initialise wallet object
 string date = CurrentDate();
-//cout << date <<endl;
-openMenu();
+//chooseToView(); // add this as option in menu
 
 
-reset(wallet);
+openMenu(wallet);
+
+
+//reset(wallet);
 modifyWallet(wallet);
 recordRemainingFunds(wallet, date);
-dataLog(); // populates dataOutput file
+
 
 return 0;
 }
