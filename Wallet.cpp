@@ -164,7 +164,7 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 
 }
 
-void recordRemainingFunds(Wallet &obj,string timestamp)
+void recordRemainingFunds(Wallet &obj)
 {
 	ofstream file;
 //	string a = timestamp;
@@ -228,9 +228,9 @@ void dataLog()
 	}
 	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
 	file << date << ",";
-	for(int i =0; i < 7; i++) // remove magic numbers
+	for(int i =0; i < PURCHASETYPES; i++) // remove magic numbers
 	{
-		if(i == 6)
+		if(i == (PURCHASETYPES-1))
 		{
 			file << hashTable[i];
 		}else{
@@ -402,25 +402,18 @@ void openMenu(Wallet &wallet)
         cin >> select;
 	}
 	}
-
-
-
 }
 
 int main()
 {
-//initialise lists
-setListofTypes();
+setListofTypes(); //initialise lists
 Wallet wallet; // initialise wallet object
-openWallet(wallet);
-string date = CurrentDate();
-//chooseToView(); // add this as option in menu
+openWallet(wallet); // read in current funds from text file and save into wallet object
+//Main Loop
 openMenu(wallet);
-
 //record results
-dataLog(); // populates dataOutput file
-recordRemainingFunds(wallet, date); // saves current contents of wallet
-
+dataLog(); // populates dataOutput file with purchase data
+recordRemainingFunds(wallet); // saves current contents of wallet
 
 return 0;
 }
