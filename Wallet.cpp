@@ -88,31 +88,11 @@ void reset(Wallet &obj)
 	static int count = 0;
 	char answer;
 	int value;
-	//printCurrentFunds(obj);
-	printf("Reset Weekly Funds? (y/n)\n\n" );
-	cin >> answer;
 
-if(answer == 'y')
-{
 	cout << "Enter amount to reset wallet to: " <<endl;
 	cin >> value;
 	obj.contents = value;
-}
-else if(answer == 'n')
-{
-	openWallet(obj);
-}
-else
-{
-	printf("incorrect input, try again\n\n");
-	count++;
-	if(count > 4)
-	{
-		printf("number of permissible attempts exceeded.\nExiting program\n");
-		exit(0);
-	}
-	reset(obj);
-}
+
 }
 
 
@@ -361,36 +341,7 @@ void viewMostrecent(bool &continueLoop)
 	}
 
 }
-// make persistent
-/*void purchaseLog()
-{
 
-	fstream file;
-	string date = CurrentDate();
-	string garbage;
-	string fileName = "mostRecentPurchase.txt";
-	file.open(fileName);
-	if(file.is_open())
-	{
-	while(getline(file, garbage))
-	{
-		//nothing, just iterate through
-
-	}
-	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
-
-	file << date << "\n";
-	for(int i =0; i < purchaseCounter; i++)
-	{
-			file << purchaseRecords[i] << " : $" << purchasePrices[i] << "\n";
-	}
-	}else{
-		cerr << "Error opening file" <<endl;
-		}
-
-	file.close();
-}
-* */
 
 // provided by Timmmm on stackoverflow
 // https://stackoverflow.com/questions/34963738/c11-get-current-date-and-time-as-string
@@ -409,38 +360,43 @@ void displayCurrentInfo(Wallet &obj)
 {
 	string date = CurrentDate();
  	//cout << date <<endl;
- 	printf("%S\nCurrent contents of Wallet:\n%.2f", date, obj.contents);
+ //	printf("%s\tCurrent contents of Wallet: %.2f\n", date, obj.contents);
+ 	cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << endl;
 }
 
 void openMenu(Wallet &wallet)
 {
-    string date = CurrentDate();
-    cout << date << endl;
+    displayCurrentInfo(wallet);
 	char select;
-	cout << "Hello, please select an option below\n";
-	cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << endl;
-	cin >> select;
 	bool continueCycle = true;
+
+
+
+	cout << "Hello, please select an option below\n";
 	while(continueCycle)
 	{
+
+	cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << endl;
+	cin >> select;
 	if(select == '1')
 	{
 		reset(wallet);
-		continueCycle = false;
+		//continueCycle = false;
 	}else if(select == '2')
 	{
-		//
-		continueCycle = false;
+		modifyWallet(wallet);
+        //continueCycle = false;
 	}
 	else if(select == '3')
 	{
-		//
-		continueCycle = false;
+		chooseToView(); // this function needs fixing, only shows last purchase
+		//continueCycle = false;
 	}else if(select == '4')
 	{
-	printf("Terminating program\nWriting output to data log\n\n");
-	dataLog(); // populates dataOutput file
-    exit(0);
+	printf("Terminating program\nWriting output to data log and saving current amount of funds\n");
+	continueCycle = false;
+	return;
+
 	}
 	else{
 		cout << "invalid selection please try again.\n Valid inputs are '1', '2' or '3'" << endl;
@@ -458,15 +414,13 @@ int main()
 //initialise lists
 setListofTypes();
 Wallet wallet; // initialise wallet object
+openWallet(wallet);
 string date = CurrentDate();
 //chooseToView(); // add this as option in menu
-
-
 openMenu(wallet);
 
-
-//reset(wallet);
-modifyWallet(wallet);
+//record results
+dataLog(); // populates dataOutput file
 recordRemainingFunds(wallet, date);
 
 
