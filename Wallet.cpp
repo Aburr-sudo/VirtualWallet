@@ -370,8 +370,6 @@ void openMenu(Wallet &wallet)
 	char select;
 	bool continueCycle = true;
 
-
-
 	cout << "Hello, please select an option below\n";
 	while(continueCycle)
 	{
@@ -381,16 +379,16 @@ void openMenu(Wallet &wallet)
 	if(select == '1')
 	{
 		reset(wallet);
-		//continueCycle = false;
+		cout << "\n\n";
 	}else if(select == '2')
 	{
 		modifyWallet(wallet);
-        //continueCycle = false;
+        cout << "\n\n";
 	}
 	else if(select == '3')
 	{
 		chooseToView(); // this function needs fixing, only shows last purchase
-		//continueCycle = false;
+		cout << "\n\n";
 	}else if(select == '4')
 	{
 	printf("Terminating program\nWriting output to data log and saving current amount of funds\n");
