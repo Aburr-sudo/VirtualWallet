@@ -35,16 +35,16 @@ void viewMostrecent(bool &continueLoop);
 /*	TODO
  *
  *
- * Rewrite receipt to be of most recent purchase history
+ * Rewrite receipt to be of most recent purchase history -- complete
  *
- * be able to pull up the receipt from the menu
+ * be able to pull up the receipt from the menu -- complete
  *
- * need to disregard entries in datalog of all 0's
+ * need to disregard entries in datalog of all 0's -- complete
 
  Add menu to make selection:
  open wallet, reset wallet, view reciept, make wallet(?)
  *
- * Auto fill data into dat appropriate log
+ * Auto fill data into appropriate log
  * Process that data in python
  *
  * */
@@ -370,7 +370,7 @@ void openMenu(Wallet &wallet)
 	char select;
 	bool continueCycle = true;
 
-	cout << "Hello, please select an option below\n";
+	cout << "\n\nWELCOME TO VIRTUAL WALLET\n\nPlease select an option below\n\n";
 	while(continueCycle)
 	{
 
@@ -419,7 +419,7 @@ openMenu(wallet);
 
 //record results
 dataLog(); // populates dataOutput file
-recordRemainingFunds(wallet, date);
+recordRemainingFunds(wallet, date); // saves current contents of wallet
 
 
 return 0;
