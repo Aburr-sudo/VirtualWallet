@@ -217,7 +217,7 @@ bool isEmpty()
             checkIfAllEmpty++;
         }
     }
-    if(checkIfAllEmpty == 7)
+    if(checkIfAllEmpty == PURCHASETYPES)
     {
         return true;
     }else{
