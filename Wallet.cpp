@@ -33,7 +33,7 @@ void viewMostrecent(bool &continueLoop);
 
 
 
-/*	TO DO
+/*	TODO
  * 
  * 
  * Rewrite receipt to be of most recent purchase history
@@ -41,6 +41,9 @@ void viewMostrecent(bool &continueLoop);
  * be able to pull up the receipt from the menu
  * 
  * need to disregard entries in datalog of all 0's
+
+ Add menu to make selection:
+ open wallet, reset wallet, view reciept, make wallet(?)
  * 
  * Auto fill data into dat appropriate log
  * Process that data in python 
@@ -204,12 +207,6 @@ void recordRemainingFunds(Wallet &obj,string timestamp)
 	
 	file.close();
 }
-
-void printCurrentFunds(Wallet &obj)
-{
-	printf("Current contents of Wallet:\n%.2f", obj.contents);
-}
-
 
 void dataLog()
 {
@@ -387,7 +384,46 @@ void viewPurchaseHistory()
 	ofstream viewFile;
 	viewFile.open("Receipt.txt");
 	 
-	
+}
+
+// display date, remaining funds (and wallet name)
+void displayCurrentInfo()
+{
+	string date = CurrentDate();
+ 	//cout << date <<endl;
+ 	printf("%S\nCurrent contents of Wallet:\n%.2f", date, obj.contents);
+}
+
+void openMenu()
+{
+	char select;
+	cout << "Hello, please select an option below\n";
+	cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases" << endl;
+
+	cin >> select;
+	bool continueCycle = true;
+	while(continueCycle)
+	{
+	if(select == '1')
+	{
+		//
+		continueCycle = false;
+	}else if(select == '2')
+	{
+		//
+		continueCycle = false;
+	}
+	else if(select == '3')
+	{
+		//
+		continueCycle = false;
+	}else{
+		cout << "invalid selection please try again.\n Valid inputs are '1', '2' or '3'" << endl;
+	}
+	}
+
+
+
 }
 
 int main()
@@ -395,12 +431,11 @@ int main()
 setListofTypes();
 Wallet wallet;
 chooseToView();
-string date = CurrentDate();
-cout << date <<endl;
+//string date = CurrentDate();
+//cout << date <<endl;
 reset(wallet);
 modifyWallet(wallet);
 recordRemainingFunds(wallet, date);
-//purchaseLog(); // populates receipt.txt file
 dataLog(); // populates dataOutput file
 
 return 0;	
