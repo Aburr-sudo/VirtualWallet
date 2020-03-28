@@ -25,17 +25,20 @@ string hashTablePurchaseTypes[PURCHASETYPES] = "";
 
 string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {0};
+class Reciept;
+vector<Reciept> RecieptRepository; // vector to be populated with receipt objects
 
 
 string CurrentDate();
 void setListofTypes();
 void viewMostrecent(bool &continueLoop);
+void constructingMostRecent();
 
 
 /*	TODO
  *
  *
- * Rewrite receipt to be of most recent purchase history -- complete
+ * Rewrite receipt to be of most recent purchase history -- needs fixing
  *
  * be able to pull up the receipt from the menu -- complete
  *
@@ -60,10 +63,47 @@ struct Wallet
 	}
 };
 
-struct Date
-{
-	int day;
-	int month;
+struct Reciept{
+    string date;
+    int groceries, bills, transport, take_out, medical, entertainment, other;
+    Reciept(string date)
+    {
+        this->date = date;
+        groceries = bills = transport = take_out = medical = entertainment = other = 0;
+    }
+    Reciept()
+    {
+        this->date = "Unassigned date";
+        groceries = bills = transport = take_out = medical = entertainment = other = 0;
+    }
+
+    void dispay()
+    {
+        cout << "Displaying purchase" << "\n" << this->date << "\n"
+        << "Groceries: $" << this->groceries << "\nBills: $" << this->bills
+        << "\nTransport: $" << this->transport << "\nTake Out: $" << this->take_out
+        << "\nMedical: $" << this->medical << "\nEntertainment: $" << this->entertainment
+        << "\nOther: $" << this->other << endl;
+    }
+
+    void assignValue(int counter, int value)
+    {
+        switch(counter)
+        {
+            case 0: this->groceries = value; break;
+            case 1: this->bills = value; break;
+            case 2: this->transport = value; break;
+            case 3: this->take_out = value; break;
+            case 4: this->medical = value; break;
+            case 5: this->entertainment = value; break;
+            case 6: this->other = value; break;
+            case 7:  break;
+        }
+
+    }
+
+
+
 };
 
 void openWallet(Wallet &obj)
@@ -167,11 +207,6 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 void recordRemainingFunds(Wallet &obj)
 {
 	ofstream file;
-//	string a = timestamp;
-//	string descriptor = "_RemainingFunds.txt";
-//	a += ".txt";
-
-//	date.append("WalletLog.txt");
 	file.open("WalletLog.txt");
 	if(file.is_open())
 	{
@@ -191,6 +226,7 @@ void recordRemainingFunds(Wallet &obj)
 bool isEmpty()
 {
     //if hashtable is empty do not open and write to file
+    //linear search
     int checkIfAllEmpty = 0;
     for(int i =0; i < PURCHASETYPES; i++)
     {
@@ -291,55 +327,149 @@ void chooseToView()
 
 	if(choice)
 	{
-		viewMostrecent(choice);
+		//viewMostrecent(choice);
+		constructingMostRecent();
 	}
-
-
 }
 
-void viewMostrecent(bool &continueLoop)
+void readInReceipts()
 {
+    fstream myfile;
+	myfile.open("outputData.csv");
+	vector<string> lines;
+	string token;
+	vector<string> splitLine;
+	string line;
+
+	string toReciept;
+	int recieptCounter = 0;
+
+
+
+
+	int recentPurchases[PURCHASETYPES] = {};
+    Reciept recieptRecord;
+
+
+	while(getline(myfile, line))
+	{
+			lines.push_back(line);
+	}
+    int counter = lines.size() -1; // minus 1 as the first row is categorical data and won't make a reciept
+
+
+    string delimiter = ",";
+    size_t pos = 0;
+
+    int flipSwitch = 0;
+    int value = 0;
+
+    while(counter > 0)
+    {
+        toReciept = lines.at(counter);
+        pos = toReciept.find(delimiter);
+        token = toReciept.substr(0, pos);
+        recieptRecord.date = token;
+        toReciept.erase(0, pos + delimiter.length());
+        cout << toReciept <<endl;
+
+        while ((pos = toReciept.find(delimiter)) != std::string::npos)
+        {
+        if(flipSwitch == PURCHASETYPES)
+        {
+            flipSwitch = 0;
+        }
+
+        token = toReciept.substr(0, pos);
+        value = stoi(token);
+
+        recieptRecord.assignValue(flipSwitch, value);
+        flipSwitch++;
+
+        toReciept.erase(0, pos + delimiter.length());
+        }
+
+    RecieptRepository.push_back(recieptRecord);
+    counter--;
+
+    }
+}
+
+
+
+
+void constructingMostRecent()
+{
+    char decision;
+    bool continueLoop = true;
+
 	fstream myfile;
 	myfile.open("outputData.csv");
 	vector<string> lines;
 	string token;
 	vector<string> splitLine;
 	string line;
+
+	string toReciept;
+	int recieptCounter = 0;
+
+
+	vector<Reciept> RecieptRepository;
+
 	int recentPurchases[PURCHASETYPES] = {};
-	int counter = 1;
-	char decision;
+    Reciept recieptRecord;
+
 
 	while(getline(myfile, line))
 	{
 			lines.push_back(line);
 	}
+    int counter = lines.size() -1; // minus 1 as the first row is categorical data and won't make a reciept
+
+
+    string delimiter = ",";
+    size_t pos = 0;
+
+    int flipSwitch = 0;
+    int value = 0;
+
+    while(counter > 0)
+    {
+        toReciept = lines.at(counter);
+        pos = toReciept.find(delimiter);
+        token = toReciept.substr(0, pos);
+        recieptRecord.date = token;
+        toReciept.erase(0, pos + delimiter.length());
+        cout << toReciept <<endl;
+
+        while ((pos = toReciept.find(delimiter)) != std::string::npos)
+        {
+        if(flipSwitch == PURCHASETYPES)
+        {
+            flipSwitch = 0;
+        }
+
+        token = toReciept.substr(0, pos);
+        value = stoi(token);
+
+        recieptRecord.assignValue(flipSwitch, value);
+        flipSwitch++;
+
+        toReciept.erase(0, pos + delimiter.length());
+        }
+
+    RecieptRepository.push_back(recieptRecord);
+    counter--;
+
+    }
+
 	while(continueLoop)
 	{
-	cout << "looper" << endl;
-	stringstream ss(lines.back());
-	while(getline(ss, token, ','))
-	{
-			splitLine.push_back(token);
-	}
-	cout << "MOST RECENT RECEIPT\n";
-	for(int i =0; i < 7; i++)
-	{
-			if(i == 0)
-			{
-			cout << "Date : " << splitLine.at(i) << "\n****EXPENSES****\n";
-			}else
-			{
-				cout << hashTablePurchaseTypes[i] << " : " << splitLine.at(i)  << endl;
-			}
-	}
-	counter++;
-	lines.pop_back();
 	cout << "look at more recent reciept? (y/n)";
 	cin >> decision;
 	if(decision == 'y')
 	{continueLoop = true;}else{continueLoop = false;}
 	}
-
 }
 
 
@@ -355,12 +485,11 @@ string CurrentDate()
     return buf;
 }
 
+
 // display date, remaining funds (and wallet name)
 void displayCurrentInfo(Wallet &obj)
 {
 	string date = CurrentDate();
- 	//cout << date <<endl;
- //	printf("%s\tCurrent contents of Wallet: %.2f\n", date, obj.contents);
  	cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << endl;
 }
 
