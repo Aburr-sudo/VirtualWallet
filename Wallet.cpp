@@ -31,8 +31,8 @@ vector<Reciept> RecieptRepository; // vector to be populated with receipt object
 
 string CurrentDate();
 void setListofTypes();
-void viewMostrecent(bool &continueLoop);
-void constructingMostRecent();
+void viewMostrecent();
+
 
 
 /*	TODO
@@ -77,9 +77,9 @@ struct Reciept{
         groceries = bills = transport = take_out = medical = entertainment = other = 0;
     }
 
-    void dispay()
+    void display()
     {
-        cout << "Displaying purchase" << "\n" << this->date << "\n"
+        cout << "\n\n***** Displaying purchase *****\n" << "\n" << this->date << "\n"
         << "Groceries: $" << this->groceries << "\nBills: $" << this->bills
         << "\nTransport: $" << this->transport << "\nTake Out: $" << this->take_out
         << "\nMedical: $" << this->medical << "\nEntertainment: $" << this->entertainment
@@ -316,21 +316,6 @@ void setListofTypes()
 	}
 }
 
-void chooseToView()
-{
-	bool choice;
-	char decision;
-	cout << "Would you like to look at your recent reciepts? (y/n)" << endl;
-	cin >> decision;
-	if(decision == 'y')
-	{choice = true;}else{choice = false;}
-
-	if(choice)
-	{
-		//viewMostrecent(choice);
-		constructingMostRecent();
-	}
-}
 
 void readInReceipts()
 {
@@ -344,12 +329,8 @@ void readInReceipts()
 	string toReciept;
 	int recieptCounter = 0;
 
-
-
-
 	int recentPurchases[PURCHASETYPES] = {};
     Reciept recieptRecord;
-
 
 	while(getline(myfile, line))
 	{
@@ -371,7 +352,6 @@ void readInReceipts()
         token = toReciept.substr(0, pos);
         recieptRecord.date = token;
         toReciept.erase(0, pos + delimiter.length());
-        cout << toReciept <<endl;
 
         while ((pos = toReciept.find(delimiter)) != std::string::npos)
         {
@@ -391,84 +371,35 @@ void readInReceipts()
 
     RecieptRepository.push_back(recieptRecord);
     counter--;
-
     }
 }
 
 
 
 
-void constructingMostRecent()
+void viewMostRecent()
 {
+    cout << "Your receipts will be listed from most to least recent" <<endl;
+    readInReceipts();
     char decision;
     bool continueLoop = true;
-
-	fstream myfile;
-	myfile.open("outputData.csv");
-	vector<string> lines;
-	string token;
-	vector<string> splitLine;
-	string line;
-
-	string toReciept;
-	int recieptCounter = 0;
-
-
-	vector<Reciept> RecieptRepository;
-
-	int recentPurchases[PURCHASETYPES] = {};
-    Reciept recieptRecord;
-
-
-	while(getline(myfile, line))
-	{
-			lines.push_back(line);
-	}
-    int counter = lines.size() -1; // minus 1 as the first row is categorical data and won't make a reciept
-
-
-    string delimiter = ",";
-    size_t pos = 0;
-
-    int flipSwitch = 0;
-    int value = 0;
-
-    while(counter > 0)
-    {
-        toReciept = lines.at(counter);
-        pos = toReciept.find(delimiter);
-        token = toReciept.substr(0, pos);
-        recieptRecord.date = token;
-        toReciept.erase(0, pos + delimiter.length());
-        cout << toReciept <<endl;
-
-        while ((pos = toReciept.find(delimiter)) != std::string::npos)
-        {
-        if(flipSwitch == PURCHASETYPES)
-        {
-            flipSwitch = 0;
-        }
-
-        token = toReciept.substr(0, pos);
-        value = stoi(token);
-
-        recieptRecord.assignValue(flipSwitch, value);
-        flipSwitch++;
-
-        toReciept.erase(0, pos + delimiter.length());
-        }
-
-    RecieptRepository.push_back(recieptRecord);
-    counter--;
-
-    }
-
+    int len = RecieptRepository.size();
+    int counter=0;
 	while(continueLoop)
 	{
-	cout << "look at more recent reciept? (y/n)";
-	cin >> decision;
-	if(decision == 'y')
-	{continueLoop = true;}else{continueLoop = false;}
+	if(decision == 'y' || counter == 0) // the counter is included for the first case
+	{
+	    if(counter == len)
+        {
+        cout << "no more receipts left" << endl;
+        continueLoop = false; // prevents out of bounds error
+        }
+	    RecieptRepository[counter].display();
+        counter++;
+        cout << "View next reciept? (y/n)";
+        cin >> decision;
+    }
+    else{continueLoop = false;}
 	}
 }
 
@@ -516,7 +447,7 @@ void openMenu(Wallet &wallet)
 	}
 	else if(select == '3')
 	{
-		chooseToView(); // this function needs fixing, only shows last purchase
+		viewMostRecent(); // this function needs fixing, only shows last purchase
 		cout << "\n\n";
 	}else if(select == '4')
 	{
