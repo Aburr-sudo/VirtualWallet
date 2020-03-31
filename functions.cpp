@@ -9,80 +9,52 @@
 #include <string>
 #include<set>
 
+#include"header.h"
 
 using namespace std;
-class Wallet;
-void printCurrentFunds(Wallet &obj);
 
-int const MAX_PURCHASES = 20;
-int const MAX = 100;
-int const EMPTY = 0;
+
+const int  MAX_PURCHASES = 20;
+int  MAX = 100;
+int  EMPTY = 0;
 int purchaseCounter = 0;
-double hashValue = 0;
-int const PURCHASETYPES = 7;
+int hashValue = 0;
+const int  PURCHASETYPES = 7;
 double hashTable[PURCHASETYPES] = {0};
-string hashTablePurchaseTypes[PURCHASETYPES] = "";
+std::string hashTablePurchaseTypes[PURCHASETYPES] = "";
 
-string purchaseRecords[MAX_PURCHASES] = {};
+std::string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {0};
-class Reciept;
-vector<Reciept> RecieptRepository; // vector to be populated with receipt objects
+std::vector<Reciept> RecieptRepository; // vector to be populated with receipt objects
 
 
-string CurrentDate();
-void setListofTypes();
-void viewMostrecent();
-
-
-
-/*	TODO
- *
- * refactor and put approprate data in header file
-    Exception checking for invalid inputs
-    Add a total amount spent colum to output file
-
- * Auto fill data into appropriate log
- * Process that data in python
- *
- * */
-
-struct Wallet
+//class functions
+Wallet::Wallet()
 {
-	double contents;
-	int date;
-
-	Wallet()
-	{
-			contents = 0;
-	}
-};
-
-struct Reciept{
-    string date;
-    int groceries, bills, transport, take_out, medical, entertainment, other;
-    Reciept(string date)
-    {
-        this->date = date;
-        groceries = bills = transport = take_out = medical = entertainment = other = 0;
-    }
-    Reciept()
-    {
+    contents = 0;
+}
+Reciept::Reciept()
+{
         this->date = "Unassigned date";
         groceries = bills = transport = take_out = medical = entertainment = other = 0;
-    }
+}
 
-    void display()
-    {
+Reciept::Reciept(string date)
+{
+    this->date = date;
+    groceries = bills = transport = take_out = medical = entertainment = other = 0;
+}
+void Reciept::display()
+{
         cout << "\n\n***** Displaying purchase *****\n" << "\n" << this->date << "\n"
         << "Groceries: $" << this->groceries << "\nBills: $" << this->bills
         << "\nTransport: $" << this->transport << "\nTake Out: $" << this->take_out
         << "\nMedical: $" << this->medical << "\nEntertainment: $" << this->entertainment
         << "\nOther: $" << this->other << endl;
-    }
-
-    void assignValue(int counter, int value)
-    {
-        switch(counter)
+}
+void Reciept::assignValue(int counter, int value)
+{
+            switch(counter)
         {
             case 0: this->groceries = value; break;
             case 1: this->bills = value; break;
@@ -93,18 +65,13 @@ struct Reciept{
             case 6: this->other = value; break;
             case 7:  break;
         }
-
-    }
-
-
-
-};
+}
 
 void openWallet(Wallet &obj)
 {
-		ifstream file;
-		string garbage;
-		string value;
+		std::ifstream file;
+		std::string garbage;
+		std::string value;
 		double funds;
 		file.open("WalletLog.txt");
 		if(file.is_open())
@@ -114,7 +81,7 @@ void openWallet(Wallet &obj)
 			funds = std::atof(value.c_str());
 			obj.contents = funds;
 		}
-			else{cerr << "error";}
+			else{std::cerr << "error";}
 }
 
 void reset(Wallet &obj)
@@ -122,20 +89,20 @@ void reset(Wallet &obj)
 	char answer;
 	int value;
 
-	cout << "Enter amount to reset wallet to: " <<endl;
-	cin >> value;
+	std::cout << "Enter amount to reset wallet to: " <<std::endl;
+	std::cin >> value;
 	obj.contents = value;
 
 }
 
 
-string listPurchasePossibilities()
+std::string listPurchasePossibilities()
 {
 	int selection;
 
-	string selectionStr;
+	std::string selectionStr;
 	printf("What did you purchase today\n1. Groceries\n2. Bills\n3. Transport\n4. Take Out\n5. Medical\n6. Entertainment\n7. Other\n\n");
-	cin >> selection;
+	std::cin >> selection;
 	if(selection <= 0 || selection > 7)
 	{
 	printf("Invalid selection");
@@ -150,7 +117,7 @@ string listPurchasePossibilities()
 			case 5: selectionStr = "Medical"; hashValue = 4; break;
 			case 6: selectionStr = "Entertainment"; hashValue = 5; break;
 			case 7: printf("Type in your purchase\n");
-			cin >> selectionStr;  hashValue = 6; break;
+			std::cin >> selectionStr;  hashValue = 6; break;
 
 			default:
 			break;
@@ -161,26 +128,24 @@ string listPurchasePossibilities()
 
 void modifyWallet(Wallet &obj)
 {
-string purchase;
+std::string purchase;
 char answer;
 double spending;
-
-
 int day;
 int month;
 bool continueLoop = true;
 
 while(continueLoop)
 {
-	cout << "Record purchase? (y/n)\n" << endl;
-	cin >> answer;
+	std::cout << "Record purchase? (y/n)\n" << std::endl;
+	std::cin >> answer;
 	if(answer == 'y')
 	{
 	purchase = listPurchasePossibilities();
 
 	purchaseRecords[purchaseCounter] = purchase;
-	cout << "how much did you spend today on " << purchase << "?\n$";
-	cin >> spending;
+	std::cout << "how much did you spend today on " << purchase << "?\n$";
+	std::cin >> spending;
 	purchasePrices[purchaseCounter++] = spending;
 	obj.contents = obj.contents - (spending);
 	hashTable[hashValue] += spending;
@@ -191,7 +156,7 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 	{
 		printf("Remaining money for the week: $%.2f\n", obj.contents);
 		continueLoop = false;
-	}else{ cout << "invalid input\n" << endl;}
+	}else{ std::cout << "invalid input\n" << std::endl;}
 
 }
 
@@ -199,7 +164,7 @@ printf("Remaining money for the week: $%.2f\n", obj.contents);
 
 void recordRemainingFunds(Wallet &obj)
 {
-	ofstream file;
+	std::ofstream file;
 	file.open("WalletLog.txt");
 	if(file.is_open())
 	{
@@ -208,7 +173,7 @@ void recordRemainingFunds(Wallet &obj)
 	std::string line = strs.str();
 
 	//string line = std::to_string(obj.contents);
-	string text = "Remaining money for the week: ";
+	std::string text = "Remaining money for the week: ";
 	text.append(line);
 	file << text;
 	}
@@ -244,11 +209,11 @@ void dataLog()
         return;
     }
 
-	fstream file;
-	string date = CurrentDate();
-	string garbage;
+	std::fstream file;
+	std::string date = CurrentDate();
+	std::string garbage;
 	double total = 0;
-	string fileName = "outputData.csv";
+	std::string fileName = "outputData.csv";
 	file.open(fileName);
 	if(file.is_open())
 	{
@@ -314,14 +279,14 @@ void setListofTypes()
 
 void readInReceipts()
 {
-    fstream myfile;
+    std::fstream myfile;
 	myfile.open("outputData.csv");
-	vector<string> lines;
-	string token;
-	vector<string> splitLine;
-	string line;
+	std::vector<std::string> lines;
+	std::string token;
+	std::vector<std::string> splitLine;
+	std::string line;
 
-	string toReciept;
+	std::string toReciept;
 	int recieptCounter = 0;
 
 	int recentPurchases[PURCHASETYPES] = {};
@@ -334,7 +299,7 @@ void readInReceipts()
     int counter = lines.size() -1; // minus 1 as the first row is categorical data and won't make a reciept
 
 
-    string delimiter = ",";
+    std::string delimiter = ",";
     size_t pos = 0;
 
     int flipSwitch = 0;
@@ -374,7 +339,7 @@ void readInReceipts()
 
 void viewMostRecent()
 {
-    cout << "Your receipts will be listed from most to least recent" <<endl;
+    std::cout << "Your receipts will be listed from most to least recent" <<std::endl;
     readInReceipts();
     char decision;
     bool continueLoop = true;
@@ -386,13 +351,13 @@ void viewMostRecent()
 	{
 	    if(counter == len)
         {
-        cout << "no more receipts left" << endl;
+        std::cout << "no more receipts left" << std::endl;
         continueLoop = false; // prevents out of bounds error
         }
 	    RecieptRepository[counter].display();
         counter++;
-        cout << "View next reciept? (y/n)";
-        cin >> decision;
+       std:: cout << "View next reciept? (y/n)";
+        std::cin >> decision;
     }
     else{continueLoop = false;}
 	}
@@ -401,8 +366,7 @@ void viewMostRecent()
 
 // provided by Timmmm on stackoverflow
 // https://stackoverflow.com/questions/34963738/c11-get-current-date-and-time-as-string
-//edited ".txt" to end of string
-string CurrentDate()
+std::string CurrentDate()
 {
     std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
@@ -415,8 +379,8 @@ string CurrentDate()
 // display date, remaining funds (and wallet name)
 void displayCurrentInfo(Wallet &obj)
 {
-	string date = CurrentDate();
- 	cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << endl;
+	std::string date = CurrentDate();
+ 	std::cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << std::endl;
 }
 
 void openMenu(Wallet &wallet)
@@ -425,25 +389,25 @@ void openMenu(Wallet &wallet)
 	char select;
 	bool continueCycle = true;
 
-	cout << "\n\nWELCOME TO VIRTUAL WALLET\n\nPlease select an option below\n\n";
+	std::cout << "\n\nWELCOME TO VIRTUAL WALLET\n\nPlease select an option below\n\n";
 	while(continueCycle)
 	{
 
-	cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << endl;
-	cin >> select;
+	std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << std::endl;
+	std::cin >> select;
 	if(select == '1')
 	{
 		reset(wallet);
-		cout << "\n\n";
+		std::cout << "\n\n";
 	}else if(select == '2')
 	{
 		modifyWallet(wallet);
-        cout << "\n\n";
+        std::cout << "\n\n";
 	}
 	else if(select == '3')
 	{
-		viewMostRecent(); // this function needs fixing, only shows last purchase
-		cout << "\n\n";
+		viewMostRecent();
+		std::cout << "\n\n";
 	}else if(select == '4')
 	{
 	printf("Terminating program\nWriting output to data log and saving current amount of funds\n");
@@ -452,23 +416,9 @@ void openMenu(Wallet &wallet)
 
 	}
 	else{
-		cout << "invalid selection please try again.\n Valid inputs are '1', '2' or '3'" << endl;
-        cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << endl;
-        cin >> select;
+		std::cout << "invalid selection please try again.\n Valid inputs are '1', '2' or '3'" << std::endl;
+        std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << std::endl;
+        std::cin >> select;
 	}
 	}
-}
-
-int main()
-{
-setListofTypes(); //initialise lists
-Wallet wallet; // initialise wallet object
-openWallet(wallet); // read in current funds from text file and save into wallet object
-//Main Loop
-openMenu(wallet);
-//record results
-dataLog(); // populates dataOutput file with purchase data
-recordRemainingFunds(wallet); // saves current contents of wallet
-
-return 0;
 }
