@@ -20,7 +20,7 @@ int const EMPTY = 0;
 int purchaseCounter = 0;
 int hashValue = 0;
 int const PURCHASETYPES = 7;
-int hashTable[PURCHASETYPES] = {0};
+double hashTable[PURCHASETYPES] = {0};
 string hashTablePurchaseTypes[PURCHASETYPES] = "";
 
 string purchaseRecords[MAX_PURCHASES] = {};
@@ -37,16 +37,10 @@ void viewMostrecent();
 
 /*	TODO
  *
- *
- * Rewrite receipt to be of most recent purchase history -- needs fixing
- *
- * be able to pull up the receipt from the menu -- complete
- *
- * need to disregard entries in datalog of all 0's -- complete
+ * refactor and put approprate data in header file
+    Exception checking for invalid inputs
+    Add a total amount spent colum to output file
 
- Add menu to make selection:
- open wallet, reset wallet, view reciept, make wallet(?)
- *
  * Auto fill data into appropriate log
  * Process that data in python
  *
@@ -125,7 +119,6 @@ void openWallet(Wallet &obj)
 
 void reset(Wallet &obj)
 {
-	static int count = 0;
 	char answer;
 	int value;
 
@@ -254,6 +247,7 @@ void dataLog()
 	fstream file;
 	string date = CurrentDate();
 	string garbage;
+	double total = 0;
 	string fileName = "outputData.csv";
 	file.open(fileName);
 	if(file.is_open())
@@ -264,13 +258,14 @@ void dataLog()
 	}
 	if(file.eof()){ file.clear();} // reset flag, say end of file has not been reached, allows further input
 	file << date << ",";
-	for(int i =0; i < PURCHASETYPES; i++) // remove magic numbers
+	for(int i = 0; i <= PURCHASETYPES; i++) // remove magic numbers
 	{
-		if(i == (PURCHASETYPES-1))
+		if(i == (PURCHASETYPES))
 		{
-			file << hashTable[i];
+			file << total;
 		}else{
 			file << hashTable[i] << ",";
+			total += hashTable[i];
 		}
 	}
 	file << "\n";
