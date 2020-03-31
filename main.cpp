@@ -13,8 +13,6 @@
 #include"header.h"
 
 
-using namespace std;
-
 /*	TODO
  *
  * Exception checking for invalid inputs

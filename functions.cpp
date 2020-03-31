@@ -67,6 +67,9 @@ void Reciept::assignValue(int counter, int value)
         }
 }
 
+// ********FREE FUNCTIONS***********  //
+
+
 void openWallet(Wallet &obj)
 {
 		std::ifstream file;
