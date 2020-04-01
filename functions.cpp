@@ -153,11 +153,11 @@ while(continueLoop)
 	obj.contents = obj.contents - (spending);
 	hashTable[hashValue] += spending;
 
-printf("Remaining money for the week: $%.2f\n", obj.contents);
+printf("Remaining disposable funds: $%.2f\n", obj.contents);
 	}
 	else if(answer == 'n')
 	{
-		printf("Remaining money for the week: $%.2f\n", obj.contents);
+		printf("Remaining disposable funds: $%.2f\n", obj.contents);
 		continueLoop = false;
 	}else{ std::cout << "invalid input\n" << std::endl;}
 
@@ -176,7 +176,7 @@ void recordRemainingFunds(Wallet &obj)
 	std::string line = strs.str();
 
 	//string line = std::to_string(obj.contents);
-	std::string text = "Remaining money for the week: ";
+	std::string text = "Remaining disposable funds: ";
 	text.append(line);
 	file << text;
 	}
