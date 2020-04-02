@@ -5,7 +5,7 @@
 struct Wallet
 {
 	double contents;
-	int date;
+	std::string date;
 	Wallet();
 };
 

@@ -32,6 +32,7 @@ std::vector<Reciept> RecieptRepository; // vector to be populated with receipt o
 Wallet::Wallet()
 {
     contents = 0;
+    date = CurrentDate();
 }
 Reciept::Reciept()
 {
@@ -73,14 +74,15 @@ void Reciept::assignValue(int counter, int value)
 void openWallet(Wallet &obj)
 {
 		std::ifstream file;
-		std::string garbage;
+		std::string dateOfLastReset;
 		std::string value;
 		double funds;
 		file.open("WalletLog.txt");
 		if(file.is_open())
 		{
-			getline(file, garbage, ':');
+			getline(file, dateOfLastReset);
 			getline(file, value);
+			obj.date = dateOfLastReset;
 			funds = std::atof(value.c_str());
 			obj.contents = funds;
 		}
@@ -91,10 +93,13 @@ void reset(Wallet &obj)
 {
 	char answer;
 	int value;
+    std::string dateOfLastReset;
+    dateOfLastReset = CurrentDate();
 
 	std::cout << "Enter amount to reset wallet to: " <<std::endl;
 	std::cin >> value;
 	obj.contents = value;
+	obj.date = dateOfLastReset;
 
 }
 
@@ -172,13 +177,10 @@ void recordRemainingFunds(Wallet &obj)
 	if(file.is_open())
 	{
 	std::ostringstream strs;
-	strs << obj.contents;
+	strs << obj.date << "\n" << obj.contents;
 	std::string line = strs.str();
 
-	//string line = std::to_string(obj.contents);
-	std::string text = "Remaining disposable funds: ";
-	text.append(line);
-	file << text;
+	file << line;
 	}
 
 	file.close();
@@ -383,7 +385,7 @@ std::string CurrentDate()
 void displayCurrentInfo(Wallet &obj)
 {
 	std::string date = CurrentDate();
- 	std::cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << std::endl;
+ 	std::cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << "\t\tDate of last reset: " << obj.date << std::endl;
 }
 
 void openMenu(Wallet &wallet)
