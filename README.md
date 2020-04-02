@@ -10,9 +10,5 @@ Once executed the user will be given the four following options:
 3. View recent reciepts: This allows the user to view the data stored from previous purchase logs in a human readable format. 
 4. Exit: this terminates the program and saves updates all the relevant files with the new inputs. If there have been no new inputs, no new information is writeen to the files. This is to avoid empty entries in the file that will be subject to statistical analysis as such entries would skew the data
 
-Compilation instructions:
-
-g++ -std=c++11 main.cpp functions.cpp -o virtualWallet
-
-To execute:
-./virtualWallet
+Compilation notes
+This application uses features from c++11 so make sure you use a compatible compiler.
