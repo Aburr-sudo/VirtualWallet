@@ -4,13 +4,26 @@ Created on Tue Apr  7 21:31:47 2020
 
 @author: Allan
 """
-
-
+import sys
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from io import StringIO
 #%matplotlib inline
-df = pd.read_csv('C:/Users/Allan/Documents/outputData.csv')
+
+
+directory = os.getcwd() 
+#dir_path = os.path.dirname(os.path.realpath(__file__))
+directory =  os.path.normpath(directory)
+print(directory)
+directory = directory + "\\outputData.csv"
+directory =  os.path.normpath(directory)
+print(directory)
+
+
+#df = pd.read_csv('C:/Users/Allan/Documents/outputData.csv')
+df = pd.read_csv(directory)
 df.head()
 df.plot(x = 'Date')
 
