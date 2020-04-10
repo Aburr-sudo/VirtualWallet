@@ -6,9 +6,7 @@
 
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  7 21:31:47 2020
-
-@author: Allan
+@author: AllanBurr
 """
 import sys
 import os
@@ -26,10 +24,8 @@ import seaborn as sns
 #df.set_index('Date', inplace = True)
 #df.head()
 
-#df = pd.read_csv('C:/Users/Allan/Documents/outputData.csv')
 df = pd.read_csv('outputData.csv')
 df.head()
-
 
 index = df.index
 columns = df.columns
@@ -54,7 +50,6 @@ standardDev = df.std()
 
 # In[4]:
 
-
 ###Concatenate all this into a string then push into a file which can then 
 ## be read from the original application
 def printStats():
@@ -75,10 +70,7 @@ def printStats():
 
 
 # In[5]:
-
-
 printStats()
-
 
 # In[6]:
 
@@ -140,101 +132,16 @@ def iterateThruByColumn():
 iterateThruByColumn()
 
 
-# In[ ]:
-
-
 
 
 
 # In[13]:
 
 
-del df['Bills']#fuckALandlord
+del df['Bills']
 del df['Total'] 
 plot = df.plot(x='Date', y=['Groceries', 'Transport', 'Take_Out', 'Medical', 'Entertainment', 'Other'], kind="line")
 fig = plot.get_figure()
 fig.savefig("figures/WithoutBills_Rent.png")
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
 
 
