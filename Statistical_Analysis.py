@@ -16,27 +16,20 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from io import StringIO
+import seaborn as sns
 
 
-# In[2]:
+# In[14]:
 
-
-
-
-#
-#directory = os.getcwd() 
-#dir_path = os.path.dirname(os.path.realpath(__file__))
-#directory =  os.path.normpath(directory)
-#print(directory)
-#directory = directory + "\\outputData.csv"
-#directory =  os.path.normpath(directory)
-#print(directory)
-
+## Change date of csv to the index of dataframe
+#df['Date'] = pd.to_datetime(df['Date'])
+#df.set_index('Date', inplace = True)
+#df.head()
 
 #df = pd.read_csv('C:/Users/Allan/Documents/outputData.csv')
 df = pd.read_csv('outputData.csv')
 df.head()
-df.plot(x = 'Date')
+
 
 index = df.index
 columns = df.columns
@@ -45,7 +38,9 @@ values = df.values
 #To get correct column string names
 columns
 
-df.plot('Date', 'Total', kind = 'bar')
+plot = df.plot('Date', 'Total', kind = 'bar')
+fig = plot.get_figure()
+fig.savefig("figures/TotalSpendingByDate.png")
 
 #To get information from dataframe
 sum = df['Total'].sum()
@@ -57,8 +52,7 @@ minimum = df['Total'].min()
 standardDev = df.std()
 
 
-
-# In[ ]:
+# In[4]:
 
 
 ###Concatenate all this into a string then push into a file which can then 
@@ -80,73 +74,86 @@ def printStats():
     print("Total amount of days with no expenses: ")
 
 
-# In[ ]:
+# In[5]:
 
 
 printStats()
 
 
-# In[ ]:
+# In[6]:
 
 
 #may be changed to number of entries
 def getTotalDays():
-    numberOfDays = len(df.index)
-    return numberOfDays
+   # numberOfDays = len(df.index)
+    a = df['Date'].nunique()
+    return a
 
 
-# In[ ]:
+# In[7]:
 
 
-def countValuesInColumn(colName):
+def getTotalEntries():
+    numberOfEntries = len(df.index)
+    return numberOfEntries
+
+
+# In[9]:
+
+
+def countValuesInColumn(colName, days):
     var = 0
     for x in df[colName]:
         if x != 0:
             var += 1
     stringCol = str(var)
-    days = getTotalDays()
-    print("In a total of " + str(days)+ " days")
     print("There were " + stringCol + " instances of " + colName)
     percent = (var/days)*100
     percent = round(percent, 2)
     print("You had a " + str(percent) + "% chance of purchasing " + colName + " per day")
 
 
-# In[ ]:
+
+# In[15]:
 
 
-countValuesInColumn('Groceries')
+fig, ax = plt.subplots(figsize = (12,6))    
+fig = sns.barplot(x = 'Date', y = 'Total', data = df)
+ax.set_ylabel('Total Spent')
+ax.set_xlabel('Date')
+ax.set_xticklabels(ax.get_xticklabels(), rotation=75)
 
-
-# In[4]:
-
-
-
-## Change date of csv to the index of dataframe
-
-df['Date'] = pd.to_datetime(df['Date'])
-df.set_index('Date', inplace = True)
-df.head()
-
-
-# In[9]:
-
-
-df.index
+pic = fig.get_figure()
+pic.savefig("figures/SeabornTotalByDate.png")
 
 
 # In[10]:
 
 
-df.plot(x = 'Date', y='Total')
+def iterateThruByColumn():
+    days = getTotalDays()
+    print("In a total of " + str(days)+ " days")
+    a = list(df)
+    totals = 0
+    for totals in a[1:8]:
+        countValuesInColumn(totals, days)
+iterateThruByColumn()
 
 
 # In[ ]:
 
 
-del df['Total']
-df.plot(x = 'Date')
 
+
+
+# In[13]:
+
+
+del df['Bills']#fuckALandlord
+del df['Total'] 
+plot = df.plot(x='Date', y=['Groceries', 'Transport', 'Take_Out', 'Medical', 'Entertainment', 'Other'], kind="line")
+fig = plot.get_figure()
+fig.savefig("figures/WithoutBills_Rent.png")
 
 # In[ ]:
 
