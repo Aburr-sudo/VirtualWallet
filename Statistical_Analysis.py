@@ -38,7 +38,7 @@ plot = df.plot('Date', 'Total', kind = 'bar')
 fig = plot.get_figure()
 fig.savefig("figures/TotalSpendingByDate.png")
 
-plot = df.plot('Date', 'Groceries', kind = 'line', marker = 'o')
+plot = df.plot('Date', 'Groceries', kind = 'bar')
 fig = plot.get_figure()
 fig.savefig("figures/GroceriesSpending.png")
 
@@ -64,28 +64,37 @@ fig = plot.get_figure()
 fig.savefig("figures/Other.png")
 
  # only works without total df.plot('Date', kind='bar', stacked= True)
+Total = df['Total']
 
-#To get information from dataframe
-sum = df['Total'].sum()
-mean = df['Total'].mean()
-median = df['Total'].median()
-cumulativeMax = df.cummax()
-maximum= df['Total'].max()
-minimum = df['Total'].min()
-standardDev = df.std()
+def goThru():
+    a = list(df)
+    totals = 0
+    for totals in a[1:9]:
+        getInfo(totals)
 
+
+def getInfo(colName):
+    #To get information from dataframe
+    sum = df[colName].sum()
+    mean = df[colName].mean()
+    median = df[colName].median()
+    maximum= df[colName].max()
+    sum = round(sum, 2)
+    mean = round(mean, 2)
+    median = round(median, 2)
+    print("Total amount spent in the period on "  + colName+ ": $" + str(sum))
+    print("Average amount spent per day on "  + colName+ ": $" + str(mean))
+    print("Most spent in a single day on "  + colName+ ": $"+ str(maximum))   
+goThru()
 
 # In[4]:
-
-###Concatenate all this into a string then push into a file which can then 
-## be read from the original application
-def printStats():
-    print("Total amount spent in the period: ")
-    print(sum)
-    print("Average amount spent per day: ")
-    print(mean)
-    print("Most spent in a single day: ")
+def printOnce():
     aa = df.max()
+    maximum= df['Total'].max()
+    minimum = df['Total'].min()
+    cumulativeMax = df.cummax()
+    standardDev = df['Total'].std(axis = 0)
+    standardDev = round(standardDev, 2)
     mostSpentInADay = aa['Date']
     print(str(maximum) + " on " + str(mostSpentInADay))
     #aa = df[' Total '].min()
@@ -94,10 +103,16 @@ def printStats():
     print("Least spent in a single day: ")
     print(str(minimum) + " on " + str(leastInADay))
     print("Total amount of days with no expenses: ")
+    print("Standard deviation of total spending = " + str(standardDev))
+  
+    
+printOnce()    
+###Concatenate all this into a string then push into a file which can then 
+## be read from the original application
 
 
 # In[5]:
-printStats()
+#
 
 # In[6]:
 
