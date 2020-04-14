@@ -13,7 +13,6 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from io import StringIO
 import seaborn as sns
 
 
@@ -34,32 +33,32 @@ values = df.values
 #To get correct column string names
 columns
 
-plot = df.plot('Date', 'Total', kind = 'bar')
+plot = df.plot('Date', 'Total',  kind = 'line',marker = 'o', title ='Total Spending', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/TotalSpendingByDate.png")
 
-plot = df.plot('Date', 'Groceries', kind = 'bar')
+plot = df.plot('Date', 'Groceries', kind = 'line',marker = 'o',title ='Grocery Expenses', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/GroceriesSpending.png")
 
-plot = df.plot('Date', 'Transport', kind = 'line',marker = 'o')
+plot = df.plot('Date', 'Transport',color='orange', kind = 'bar', title ='transport Expenses', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/Transport.png")
 
-plot = df.plot('Date', 'Take_Out', kind = 'bar', color='green')
+plot = df.plot('Date', 'Take_Out', kind = 'bar', color='green', title ='Take Out Expenses', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/Take_out.png")
 
-plot = df.plot('Date', 'Medical', kind = 'bar', color='red')
+plot = df.plot('Date', 'Medical', kind = 'bar', color='red',title ='Medical Expenses', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/Medical.png")
 
 
-plot = df.plot('Date', 'Entertainment', kind = 'bar', color='yellow')
+plot = df.plot('Date', 'Entertainment', kind = 'bar', color='yellow',title ='Entertainment Expenses', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/Entertainment.png")
 
-plot = df.plot('Date', 'Other', kind = 'bar', color='black')
+plot = df.plot('Date', 'Other', kind = 'bar', color='black',title ='Misc. Expenses', legend = False)
 fig = plot.get_figure()
 fig.savefig("figures/Other.png")
 
@@ -69,12 +68,15 @@ Total = df['Total']
 def goThru():
     a = list(df)
     totals = 0
-    for totals in a[1:9]:
-        getInfo(totals)
-
-
+    stringText = ""
+    for totals in a[1:9]:        
+        stringText +=getInfo(totals)
+    return stringText    
+        
+fileText = "Begin"
 def getInfo(colName):
     #To get information from dataframe
+    stri = "Begin"
     sum = df[colName].sum()
     mean = df[colName].mean()
     median = df[colName].median()
@@ -82,10 +84,22 @@ def getInfo(colName):
     sum = round(sum, 2)
     mean = round(mean, 2)
     median = round(median, 2)
-    print("Total amount spent in the period on "  + colName+ ": $" + str(sum))
-    print("Average amount spent per day on "  + colName+ ": $" + str(mean))
-    print("Most spent in a single day on "  + colName+ ": $"+ str(maximum))   
-goThru()
+    stri = str("Total amount spent in the period on "  + colName+ ": $" + str(sum))
+    stri2 = str("Average amount spent per day on "  + colName+ ": $" + str(mean))
+    stri3 = str("Most spent in a single day on "  + colName+ ": $"+ str(maximum))   
+    stri += "\n"
+    stri += (stri2)
+    stri += "\n"
+    stri += stri3
+    stri += "\n"
+    stri += "\n"
+    stri += "\n"
+    #print(stri)
+    return stri
+
+
+
+
 
 # In[4]:
 def printOnce():
@@ -148,6 +162,21 @@ def countValuesInColumn(colName, days):
 
 
 
+
+file1 = open("Statistical Results.txt","w") 
+firstDay = df['Date'].head(1)
+firstDay = firstDay[0]
+lastDay =df['Date'].iloc[-1]
+#lastDay = lastDay[0]
+
+
+fileText = "From " + str(firstDay) + " until " + str(lastDay)+ "\n"
+fileText += "there were " + str(getTotalDays()) + " days which purchases were made\n"
+fileText += goThru()
+file1.write(fileText)
+file1.close() 
+
+
 # In[15]:
 
 
@@ -172,9 +201,6 @@ def iterateThruByColumn():
     for totals in a[1:8]:
         countValuesInColumn(totals, days)
 iterateThruByColumn()
-
-
-
 
 
 # In[13]:
