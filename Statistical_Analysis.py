@@ -38,6 +38,33 @@ plot = df.plot('Date', 'Total', kind = 'bar')
 fig = plot.get_figure()
 fig.savefig("figures/TotalSpendingByDate.png")
 
+plot = df.plot('Date', 'Groceries', kind = 'line', marker = 'o')
+fig = plot.get_figure()
+fig.savefig("figures/GroceriesSpending.png")
+
+plot = df.plot('Date', 'Transport', kind = 'line',marker = 'o')
+fig = plot.get_figure()
+fig.savefig("figures/Transport.png")
+
+plot = df.plot('Date', 'Take_Out', kind = 'bar', color='green')
+fig = plot.get_figure()
+fig.savefig("figures/Take_out.png")
+
+plot = df.plot('Date', 'Medical', kind = 'bar', color='red')
+fig = plot.get_figure()
+fig.savefig("figures/Medical.png")
+
+
+plot = df.plot('Date', 'Entertainment', kind = 'bar', color='yellow')
+fig = plot.get_figure()
+fig.savefig("figures/Entertainment.png")
+
+plot = df.plot('Date', 'Other', kind = 'bar', color='black')
+fig = plot.get_figure()
+fig.savefig("figures/Other.png")
+
+ # only works without total df.plot('Date', kind='bar', stacked= True)
+
 #To get information from dataframe
 sum = df['Total'].sum()
 mean = df['Total'].mean()
@@ -139,6 +166,9 @@ iterateThruByColumn()
 
 
 del df['Bills']
+plot = df.plot(x='Date', y=['Groceries', 'Transport', 'Take_Out', 'Medical', 'Entertainment', 'Other'], kind="bar", stacked=True)
+fig = plot.get_figure()
+fig.savefig("figures/Without_Total.png")
 del df['Total'] 
 plot = df.plot(x='Date', y=['Groceries', 'Transport', 'Take_Out', 'Medical', 'Entertainment', 'Other'], kind="line")
 fig = plot.get_figure()
