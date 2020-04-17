@@ -13,12 +13,9 @@ Then the user will be given the four following options:
 
 Data Analysis:
 This extracts the relevant statistical information from the data, plots some graphs with the data and then saves these graphs to images in the figures folder.
+Machine Learning algorithms for predictive analytics of the data are under construction.
 
 Compilation notes
 This application uses features from c++11.
 
-To Do:
-Data Analysis:
-- provide graphs by category
-- show most frequent purchase
-- show date with the highest amount spent
+
