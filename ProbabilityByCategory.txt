@@ -1,0 +1,22 @@
+In a total of 24 days
+There were 13 instances of Groceries
+You had a 54.17% chance of purchasing Groceries per day
+
+There were 4 instances of Bills
+You had a 16.67% chance of purchasing Bills per day
+
+There were 7 instances of Transport
+You had a 29.17% chance of purchasing Transport per day
+
+There were 20 instances of Take_Out
+You had a 83.33% chance of purchasing Take_Out per day
+
+There were 3 instances of Medical
+You had a 12.5% chance of purchasing Medical per day
+
+There were 1 instances of Entertainment
+You had a 4.17% chance of purchasing Entertainment per day
+
+There were 2 instances of Other
+You had a 8.33% chance of purchasing Other per day
+
