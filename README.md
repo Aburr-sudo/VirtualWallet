@@ -11,6 +11,9 @@ Then the user will be given the four following options:
 3. View recent reciepts: This allows the user to view the data stored from previous purchase logs in a human readable format. 
 4. Exit: this terminates the program and saves updates all the relevant files with the new inputs. If there have been no new inputs, no new information is written to the files. This is to avoid empty entries in the file that will be subject to statistical analysis as such entries would skew the data
 
+To Do:
+Add a method so that the user can input purchases from prior dates
+
 Data Analysis:
 This extracts the relevant statistical information from the data, plots some graphs with the data and then saves these graphs to images in the figures folder.
 Machine Learning algorithms for predictive analytics of the data are under construction.
