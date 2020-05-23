@@ -12,7 +12,12 @@
 #include"header.h"
 
 using namespace std;
+/*
+TO DO:
+Add a method so that the user can input purchases from prior dates
 
+OO the project, allow user to add category of purchase
+*/
 
 const int  MAX_PURCHASES = 20;
 int  MAX = 100;
