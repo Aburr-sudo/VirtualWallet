@@ -22,5 +22,7 @@ Find correlated variables
 
 Compilation notes
 This application uses features from c++11.
+$ g++ -std=c++11 main.cpp functions.cpp -o out
+
 
 

@@ -51,12 +51,16 @@ Reciept::Reciept(string date)
     groceries = bills = transport = take_out = medical = entertainment = other = 0;
 }
 void Reciept::display()
-{
-        cout << "\n\n***** Displaying purchase *****\n" << "\n" << this->date << "\n"
-        << "Groceries: $" << this->groceries << "\nBills: $" << this->bills
-        << "\nTransport: $" << this->transport << "\nTake Out: $" << this->take_out
-        << "\nMedical: $" << this->medical << "\nEntertainment: $" << this->entertainment
-        << "\nOther: $" << this->other << endl;
+{//only display non-zero values -- done
+        cout << "\n\n***** Displaying purchase *****\n" << endl;
+        cout << this->date << "\n";
+        if(this->groceries > 0){cout << "Groceries: $" << this->groceries << endl; }
+        if(this->bills > 0){cout << "\nBills: $" << this->bills << "\n";}
+        if(this->transport > 0){cout<< "\nTransport: $" << this->transport << "\n";}
+        if(this->take_out > 0){cout << "\nTake Out: $" << this->take_out << "\n";}
+        if(this->medical > 0){cout << "\nMedical: $" << this->medical << "\n";}
+        if(this->entertainment > 0){cout << "\nEntertainment: $" << this->entertainment << "\n";}
+        if(this->other > 0){cout << "\nOther: $" << this->other << endl; }
 }
 void Reciept::assignValue(int counter, int value)
 {
