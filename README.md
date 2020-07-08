@@ -1,6 +1,4 @@
 # VirtualWallet
-Check for validity
-
 This project has two main parts, "Wallet Log" and "Data Analysis". The first is a c++ command line interface which allows the user to keep a log of their spending habits and keep track of how much money they have left.
 The second part is a python program that takes the data generated from the first program and subjects it to statistical analaysis.
 
