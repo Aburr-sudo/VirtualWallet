@@ -86,7 +86,7 @@ void openWallet(Wallet &obj)
 		std::string dateOfLastReset;
 		std::string value;
 		double funds;
-		file.open("WalletLog.txt");
+		file.open("CurrentFunds.txt");
 		if(file.is_open())
 		{
 			getline(file, dateOfLastReset);
@@ -182,7 +182,7 @@ printf("Remaining disposable funds: $%.2f\n", obj.contents);
 void recordRemainingFunds(Wallet &obj)
 {
 	std::ofstream file;
-	file.open("WalletLog.txt");
+	file.open("CurrentFunds.txt");
 	if(file.is_open())
 	{
 	std::ostringstream strs;
