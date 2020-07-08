@@ -1,9 +1,0 @@
-1. When viewing reciepts, if the a category has a value of 0 it should not be displayed. 
-This will clean up the user interface and make it much easier to read
-
-
-2. Add option to specify the purchase, or to leave it as a generic purchase of the category type
-eg. Groceries: fruit, cleaning products ; Entertainment: Movie tickets
-or Groceries: 2 items ; Entertainment: 1 item
-
-This will allow a more detailed view of purchase history and allow the more fine grained stat analsysis of trends
