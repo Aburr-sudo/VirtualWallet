@@ -26,7 +26,7 @@ int purchaseCounter = 0;
 int hashValue = 0;
 const int  PURCHASETYPES = 7;
 double hashTable[PURCHASETYPES] = {0};
-std::string hashTablePurchaseTypes[PURCHASETYPES] = "";
+std::string hashTablePurchaseTypes[PURCHASETYPES] = {};
 
 std::string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {0};
@@ -286,20 +286,22 @@ void setListofTypes()
 		{
 			hashTablePurchaseTypes[6] = "Other";
 			counter++;
-		}else{}
+		}else{
+
+        }
 	}
 }
 
 
 void readInReceipts()
 {
-    std::fstream myfile;
+  std::fstream myfile;
 	myfile.open("outputData.csv");
 	std::vector<std::string> lines;
 	std::string token;
 	std::vector<std::string> splitLine;
 	std::string line;
-
+  //std::cout<< "trigger"<<endl;
 	std::string toReciept;
 	int recieptCounter = 0;
 
@@ -358,6 +360,11 @@ void viewMostRecent()
     char decision;
     bool continueLoop = true;
     int len = RecieptRepository.size();
+    if(len == 0)
+    {
+      std::cout << "No available receipts\n\n";
+      return;
+    }
     int counter=0;
 	while(continueLoop)
 	{
@@ -397,17 +404,42 @@ void displayCurrentInfo(Wallet &obj)
  	std::cout << "Date: " << date << "\nCurrent funds: $" << obj.contents << "\t\tDate of last reset: " << obj.date << std::endl;
 }
 
+void clearData()
+{
+    //std::fstream myfile;
+    //myfile.open("outputData.csv");
+    printf("Are you sure you want to clear all purchase history? (y/n)");
+    char toClear;
+    cin >> toClear;
+    if(toClear == 'y')
+    {
+    printf("Clearing all purchase data from output file\n\n");
+    std::string firstLine = "Date,Groceries,Bills,Transport,Take_Out,Medical,Entertainment,Other,Total";
+    std::ofstream file("outputData.csv"); // Without append
+    std::ofstream fileNew("outputData.csv", ios::app); // with append
+    fileNew << firstLine << endl;
+
+    }else if(toClear == 'n')
+    {
+    return;
+    }else{printf("invalid selection\n\n"); return;}
+
+
+
+}
+
 void openMenu(Wallet &wallet)
 {
     displayCurrentInfo(wallet);
 	char select;
+    char toClear;
 	bool continueCycle = true;
 
 	std::cout << "\n\nWELCOME TO VIRTUAL WALLET\n\nPlease select an option below\n\n";
 	while(continueCycle)
 	{
 
-	std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << std::endl;
+	std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Clear Purchase Data\n5. Exit" << std::endl;
 	std::cin >> select;
 	if(select == '1')
 	{
@@ -424,14 +456,17 @@ void openMenu(Wallet &wallet)
 		std::cout << "\n\n";
 	}else if(select == '4')
 	{
-	printf("Terminating program\nWriting output to data log and saving current amount of funds\n");
+    clearData();
+    }
+    else if(select == '5')
+    {
+    printf("Writing output to data log and saving current amount of funds\nTerminating program\n");
 	continueCycle = false;
 	return;
-
-	}
+    }
 	else{
-		std::cout << "invalid selection please try again.\n Valid inputs are '1', '2' or '3'" << std::endl;
-        std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Exit" << std::endl;
+		std::cout << "invalid selection please try again.\n Valid inputs are '1', '2', '3', '4' or '5'" << std::endl;
+        std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Clear Purchase Data\n5. Exit" << std::endl;
         std::cin >> select;
 	}
 	}
