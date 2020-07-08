@@ -1,42 +1,42 @@
-From 01/03/2020 until 14/04/2020
-there were 24 days which purchases were made
+From 01/03/2020 until 01/06/2020
+there were 26 days which purchases were made
 Total amount spent in the period on Groceries: $369.86
-Average amount spent per day on Groceries: $14.23
+Average amount spent per day on Groceries: $12.75
 Most spent in a single day on Groceries: $45.4
 
 
 Total amount spent in the period on Bills: $720
-Average amount spent per day on Bills: $27.69
+Average amount spent per day on Bills: $24.83
 Most spent in a single day on Bills: $180
 
 
-Total amount spent in the period on Transport: $28.2
+Total amount spent in the period on Transport: $31.4
 Average amount spent per day on Transport: $1.08
 Most spent in a single day on Transport: $4.2
 
 
 Total amount spent in the period on Take_Out: $148
-Average amount spent per day on Take_Out: $5.69
+Average amount spent per day on Take_Out: $5.1
 Most spent in a single day on Take_Out: $8
 
 
 Total amount spent in the period on Medical: $46.5
-Average amount spent per day on Medical: $1.79
+Average amount spent per day on Medical: $1.6
 Most spent in a single day on Medical: $15.5
 
 
-Total amount spent in the period on Entertainment: $10
-Average amount spent per day on Entertainment: $0.38
-Most spent in a single day on Entertainment: $10
+Total amount spent in the period on Entertainment: $80
+Average amount spent per day on Entertainment: $2.76
+Most spent in a single day on Entertainment: $70
 
 
-Total amount spent in the period on Other: $25
-Average amount spent per day on Other: $0.96
+Total amount spent in the period on Other: $35
+Average amount spent per day on Other: $1.21
 Most spent in a single day on Other: $21
 
 
-Total amount spent in the period on Total: $1162.58
-Average amount spent per day on Total: $44.71
+Total amount spent in the period on Total: $1245.78
+Average amount spent per day on Total: $42.96
 Most spent in a single day on Total: $221.59
 
 
