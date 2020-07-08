@@ -25,11 +25,9 @@ int main()
 setListofTypes(); //initialise lists
 Wallet wallet; // initialise wallet object
 openWallet(wallet); // read in current funds from text file and save into wallet object
-//Main Loop
-openMenu(wallet);
+openMenu(wallet); //Main Loop
 //record results
 dataLog(); // populates dataOutput file with purchase data, wont run if no input was made
 recordRemainingFunds(wallet); // saves current contents of wallet
-
 return 0;
 }
