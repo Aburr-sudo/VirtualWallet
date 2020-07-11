@@ -441,8 +441,6 @@ void clearData()
     return;
     }else{printf("invalid selection\n\n"); return;}
 
-
-
 }
 
 void openMenu(Wallet &wallet)
