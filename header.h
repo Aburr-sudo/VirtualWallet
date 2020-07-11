@@ -26,7 +26,7 @@ void recordRemainingFunds(Wallet &obj);
 bool isEmpty();
 void dataLog();
 void setListofTypes();
-void readInReceipts();
+void readInReceipts(bool &isEmpty);
 void viewMostRecent();
 std::string CurrentDate();
 void openMenu(Wallet &wallet);

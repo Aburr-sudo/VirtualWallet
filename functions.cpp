@@ -293,7 +293,7 @@ void setListofTypes()
 }
 
 
-void readInReceipts()
+void readInReceipts(bool &isEmpty)
 {
   std::fstream myfile;
 	myfile.open("outputData.csv");
@@ -301,6 +301,7 @@ void readInReceipts()
 	std::string token;
 	std::vector<std::string> splitLine;
 	std::string line;
+  isEmpty = false;
   //std::cout<< "trigger"<<endl;
 	std::string toReciept;
 	int recieptCounter = 0;
@@ -311,8 +312,18 @@ void readInReceipts()
 	while(getline(myfile, line))
 	{
 			lines.push_back(line);
+      recieptCounter++;
 	}
     int counter = lines.size() -1; // minus 1 as the first row is categorical data and won't make a reciept
+
+    if(recieptCounter == 1)
+    {
+      std::cout << "Shiiieet" << std::endl;
+      isEmpty = true;
+      //terminate functions
+      return;
+    }
+
 
 
     std::string delimiter = ",";
@@ -356,9 +367,13 @@ void readInReceipts()
 void viewMostRecent()
 {
     std::cout << "Your receipts will be listed from most to least recent" <<std::endl;
-    readInReceipts();
+    bool isEmpty = false;
+    readInReceipts(isEmpty);
     char decision;
     bool continueLoop = true;
+
+
+
     int len = RecieptRepository.size();
     if(len == 0)
     {
@@ -368,17 +383,19 @@ void viewMostRecent()
     int counter=0;
 	while(continueLoop)
 	{
+
 	if(decision == 'y' || counter == 0) // the counter is included for the first case
 	{
 	    if(counter == len)
         {
         std::cout << "no more receipts left" << std::endl;
         continueLoop = false; // prevents out of bounds error
+        return;
         }
 	    RecieptRepository[counter].display();
-        counter++;
-       std:: cout << "View next reciept? (y/n)";
-        std::cin >> decision;
+      counter++;
+      std:: cout << "View next reciept? (y/n)";
+      std::cin >> decision;
     }
     else{continueLoop = false;}
 	}
