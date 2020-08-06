@@ -17,7 +17,6 @@ Then the user will be given the five following options:
 
 Data Analysis:
 This extracts the relevant statistical information from the data, plots some graphs with the data and then saves these graphs to images in the figures folder.
-Machine Learning algorithms for predictive analytics of the data are under construction.
 
 
 
