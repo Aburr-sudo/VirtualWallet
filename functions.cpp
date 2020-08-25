@@ -52,15 +52,14 @@ Reciept::Reciept(string date)
 }
 void Reciept::display()
 {//only display non-zero values -- done
-        cout << "\n\n***** Displaying purchase *****\n" << endl;
         cout << this->date << "\n";
         if(this->groceries > 0){cout << "Groceries: $" << this->groceries << endl; }
-        if(this->bills > 0){cout << "\nBills: $" << this->bills << "\n";}
-        if(this->transport > 0){cout<< "\nTransport: $" << this->transport << "\n";}
-        if(this->take_out > 0){cout << "\nTake Out: $" << this->take_out << "\n";}
-        if(this->medical > 0){cout << "\nMedical: $" << this->medical << "\n";}
+        if(this->bills > 0){cout << "Bills: $" << this->bills << "\n";}
+        if(this->transport > 0){cout<< "Transport: $" << this->transport << "\n";}
+        if(this->take_out > 0){cout << "Take Out: $" << this->take_out << "\n";}
+        if(this->medical > 0){cout << "Medical: $" << this->medical << "\n";}
         if(this->entertainment > 0){cout << "\nEntertainment: $" << this->entertainment << "\n";}
-        if(this->other > 0){cout << "\nOther: $" << this->other << endl; }
+        if(this->other > 0){cout << "Other: $" << this->other << endl; }
 }
 void Reciept::assignValue(int counter, int value)
 {
@@ -383,7 +382,7 @@ void viewMostRecent()
     int counter=0;
 	while(continueLoop)
 	{
-
+    cout << "\n\n***** Displaying purchases *****\n" << endl;
 	if(decision == 'y' || counter == 0) // the counter is included for the first case
 	{
 	    if(counter == len)
@@ -392,11 +391,19 @@ void viewMostRecent()
         continueLoop = false; // prevents out of bounds error
         return;
         }
-	    RecieptRepository[counter].display();
-      counter++;
-      std:: cout << "View next reciept? (y/n)";
-      std::cin >> decision;
+        else{
+          for(int i =0; i <5; i++)
+          {
+              RecieptRepository[counter].display();
+              cout << endl;
+              counter++;
+          }
+        }
+        std:: cout << "View next  set of reciepts? (y/n)";
+        std::cin >> decision;
+
     }
+
     else{continueLoop = false;}
 	}
 }
