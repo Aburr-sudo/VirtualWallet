@@ -58,7 +58,7 @@ void Reciept::display()
         if(this->transport > 0){cout<< "Transport: $" << this->transport << "\n";}
         if(this->take_out > 0){cout << "Take Out: $" << this->take_out << "\n";}
         if(this->medical > 0){cout << "Medical: $" << this->medical << "\n";}
-        if(this->entertainment > 0){cout << "\nEntertainment: $" << this->entertainment << "\n";}
+        if(this->entertainment > 0){cout << "Entertainment: $" << this->entertainment << "\n";}
         if(this->other > 0){cout << "Other: $" << this->other << endl; }
 }
 void Reciept::assignValue(int counter, int value)
@@ -380,11 +380,14 @@ void viewMostRecent()
       return;
     }
     int counter=0;
+
+    cout << "\n\n***** Displaying purchases *****\n" << endl;
 	while(continueLoop)
 	{
-    cout << "\n\n***** Displaying purchases *****\n" << endl;
+
 	if(decision == 'y' || counter == 0) // the counter is included for the first case
 	{
+
 	    if(counter == len)
         {
         std::cout << "no more receipts left" << std::endl;
@@ -399,7 +402,7 @@ void viewMostRecent()
               counter++;
           }
         }
-        std:: cout << "View next  set of reciepts? (y/n)";
+        std:: cout << "View next  five reciepts? (y/n)\n";
         std::cin >> decision;
 
     }
