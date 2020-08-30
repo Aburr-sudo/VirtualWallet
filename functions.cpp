@@ -76,6 +76,15 @@ void Reciept::assignValue(int counter, int value)
         }
 }
 
+double Reciept::spending_sum()
+{
+    double result;
+    result = this->bills+this->entertainment + this->groceries + this->transport + this->take_out + this->medical
+    + this->other;
+    return result;
+}
+
+
 // ********FREE FUNCTIONS***********  //
 
 
@@ -381,13 +390,13 @@ void viewMostRecent()
     }
     int counter=0;
 
-    cout << "\n\n***** Displaying purchases *****\n" << endl;
+    cout << "\n\n***** Displaying last seven recorded receipts *****\n" << endl;
 	while(continueLoop)
 	{
 
 	if(decision == 'y' || counter == 0) // the counter is included for the first case
 	{
-
+        double result = 0;
 	    if(counter == len)
         {
         std::cout << "no more receipts left" << std::endl;
@@ -395,14 +404,16 @@ void viewMostRecent()
         return;
         }
         else{
-          for(int i =0; i <5; i++)
+          for(int i =0; i <7; i++)
           {
               RecieptRepository[counter].display();
               cout << endl;
+              result += RecieptRepository[counter].spending_sum();
               counter++;
           }
         }
-        std:: cout << "View next  five reciepts? (y/n)\n";
+        std::cout << "Total spending: $" << result << "\n";
+        std:: cout << "View next set of seven reciepts? (y/n)\n";
         std::cin >> decision;
 
     }

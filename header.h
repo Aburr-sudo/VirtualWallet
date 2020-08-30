@@ -16,6 +16,7 @@ struct Reciept{
     Reciept();
     void display();
     void assignValue(int counter, int value);
+    double spending_sum();
 };
 
 void openWallet(Wallet &obj);
