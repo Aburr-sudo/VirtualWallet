@@ -1,42 +1,42 @@
-From 01/03/2020 until 01/06/2020
-there were 26 days which purchases were made
-Total amount spent in the period on Groceries: $369.86
-Average amount spent per day on Groceries: $12.75
-Most spent in a single day on Groceries: $45.4
+From 01/03/2020 until 04/10/2020
+there were 48 days which purchases were made
+Total amount spent in the period on Groceries: $653.86
+Average amount spent per day on Groceries: $11.47
+Most spent in a single day on Groceries: $63.67
 
 
-Total amount spent in the period on Bills: $720
-Average amount spent per day on Bills: $24.83
+Total amount spent in the period on Bills: $792
+Average amount spent per day on Bills: $13.89
 Most spent in a single day on Bills: $180
 
 
 Total amount spent in the period on Transport: $31.4
-Average amount spent per day on Transport: $1.08
+Average amount spent per day on Transport: $0.55
 Most spent in a single day on Transport: $4.2
 
 
-Total amount spent in the period on Take_Out: $148
-Average amount spent per day on Take_Out: $5.1
-Most spent in a single day on Take_Out: $8
+Total amount spent in the period on Take_Out: $378.6
+Average amount spent per day on Take_Out: $6.64
+Most spent in a single day on Take_Out: $44.5
 
 
 Total amount spent in the period on Medical: $46.5
-Average amount spent per day on Medical: $1.6
+Average amount spent per day on Medical: $0.82
 Most spent in a single day on Medical: $15.5
 
 
-Total amount spent in the period on Entertainment: $80
-Average amount spent per day on Entertainment: $2.76
-Most spent in a single day on Entertainment: $70
+Total amount spent in the period on Entertainment: $181.76
+Average amount spent per day on Entertainment: $3.19
+Most spent in a single day on Entertainment: $70.0
 
 
-Total amount spent in the period on Other: $35
-Average amount spent per day on Other: $1.21
-Most spent in a single day on Other: $21
+Total amount spent in the period on Other: $68.3
+Average amount spent per day on Other: $1.2
+Most spent in a single day on Other: $33.3
 
 
-Total amount spent in the period on Total: $1245.78
-Average amount spent per day on Total: $42.96
+Total amount spent in the period on Total: $1967.44
+Average amount spent per day on Total: $34.52
 Most spent in a single day on Total: $221.59
 
 
