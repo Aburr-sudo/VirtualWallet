@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include<set>
+#include <stdlib.h>
 
 #include"header.h"
 
@@ -261,6 +262,16 @@ void dataLog()
 	file.close();
 }
 
+void save_data(Wallet &wallet)
+{
+//record results
+printf("Writing output to data log and saving current amount of funds...\n");
+dataLog(); // populates dataOutput file with purchase data, wont run if no input was made
+recordRemainingFunds(wallet); // saves current contents of wallet
+printf("Data saved to output file\n");
+}
+
+
 void setListofTypes()
 {
 	int counter = 0;
@@ -466,43 +477,68 @@ void clearData()
 
 void openMenu(Wallet &wallet)
 {
-    displayCurrentInfo(wallet);
 	char select;
     char toClear;
 	bool continueCycle = true;
 
-	std::cout << "\n\nWELCOME TO VIRTUAL WALLET\n\nPlease select an option below\n\n";
 	while(continueCycle)
 	{
+    displayCurrentInfo(wallet);
+    std::cout << "\n\n*****  WELCOME TO VIRTUAL WALLET  *****\n\nPlease select an option below:\n\n";
 
-	std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Clear Purchase Data\n5. Exit" << std::endl;
+	std::cout << "1. Reset remaining funds\n\n2. Record purchases\n\n3. View recent purchases\n\n4. Clear Purchase Data\n\n5. Update statistics and data visualisations\n\t (based on saved data) [executes python file]"
+    << "\n\n6. Save wallet data and purchase information \n\n7. Exit Progam" << std::endl;
+    std::cout << "\n";
 	std::cin >> select;
 	if(select == '1')
 	{
 		reset(wallet);
-		std::cout << "\n\n";
+		std::cout << "\n\n\n\n\n";
 	}else if(select == '2')
 	{
 		modifyWallet(wallet);
-        std::cout << "\n\n";
+        std::cout << "\n\n\n\n\n";
 	}
 	else if(select == '3')
 	{
 		viewMostRecent();
-		std::cout << "\n\n";
+		std::cout << "\n\n\n\n\n";
 	}else if(select == '4')
 	{
+    printf("Deleting all data...\n");
     clearData();
+    printf("\nProcess complete!");
+    std::cout << "\n\n\n\n\n";
     }
     else if(select == '5')
     {
-    printf("Writing output to data log and saving current amount of funds\nTerminating program\n");
+    try {
+    std::cout << "Running python file to update statistics and data visualisations...\n";
+    system("data_analysis.py");
+    printf("\n\nStatistics and figures updated!\nPlease see the figures subdirectory to view the data visualisation files\n");
+    std::cout << "\n\n\n\n\n";
+    }catch(const std::exception& e){
+         std::cout << e.what();
+         std::cout << "Failure to run python file..\n \nEnsure you have the relevant libraries installed and environment activated\n";
+         std::cout << "\n\n\n\n\n";
+    }
+    }
+    else if(select == '6')
+    {
+    save_data(wallet);
+    std::cout << "\n\n\n\n\n";
+    }
+    else if(select == '7')
+    {
+    printf("\nTerminating program\n");
 	continueCycle = false;
-	return;
+	//return;
     }
 	else{
+        std::cout << "\n\n\n\n\n";
 		std::cout << "invalid selection please try again.\n Valid inputs are '1', '2', '3', '4' or '5'" << std::endl;
-        std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Clear Purchase Data\n5. Exit" << std::endl;
+        std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Clear Purchase Data\n5. Update statistics and data visualisations\n\t (based on saved data) [executes python file]"
+        << "\n6. Save wallet data and purchase information \n7. Exit Progam" << std::endl;
         std::cin >> select;
 	}
 	}

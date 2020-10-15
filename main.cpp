@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 #include<set>
+#include <stdlib.h>
+
 
 //include header file
 #include"header.h"
@@ -15,8 +17,10 @@
 
 /*	TODO
  *
- * Exception checking for invalid inputs
- * Process data in python
+    formatting and presentation
+        maybe add condition to check if in terminal or executable
+         in terminal it is possible to clear the screen
+             printf("\033c");
  *
  * */
 
@@ -26,8 +30,6 @@ setListofTypes(); //initialise lists
 Wallet wallet; // initialise wallet object
 openWallet(wallet); // read in current funds from text file and save into wallet object
 openMenu(wallet); //Main Loop
-//record results
-dataLog(); // populates dataOutput file with purchase data, wont run if no input was made
-recordRemainingFunds(wallet); // saves current contents of wallet
+//#system("bash");
 return 0;
 }
