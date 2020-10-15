@@ -17,10 +17,11 @@
 
 /*	TODO
  *
-    formatting and presentation
+    1. formatting and presentation
         maybe add condition to check if in terminal or executable
          in terminal it is possible to clear the screen
              printf("\033c");
+    2. Redirect output files to specialised directories
  *
  * */
 

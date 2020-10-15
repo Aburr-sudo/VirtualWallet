@@ -487,7 +487,7 @@ void openMenu(Wallet &wallet)
     std::cout << "\n\n*****  WELCOME TO VIRTUAL WALLET  *****\n\nPlease select an option below:\n\n";
 
 	std::cout << "1. Reset remaining funds\n\n2. Record purchases\n\n3. View recent purchases\n\n4. Clear Purchase Data\n\n5. Update statistics and data visualisations\n\t (based on saved data) [executes python file]"
-    << "\n\n6. Save wallet data and purchase information \n\n7. Exit Progam" << std::endl;
+    << "\n\n6. Save wallet data and purchase information \n\n7. Exit Program" << std::endl;
     std::cout << "\n";
 	std::cin >> select;
 	if(select == '1')
@@ -538,7 +538,7 @@ void openMenu(Wallet &wallet)
         std::cout << "\n\n\n\n\n";
 		std::cout << "invalid selection please try again.\n Valid inputs are '1', '2', '3', '4' or '5'" << std::endl;
         std::cout << "1. Reset remaining funds\n2. Record purchases\n3. View recent purchases\n4. Clear Purchase Data\n5. Update statistics and data visualisations\n\t (based on saved data) [executes python file]"
-        << "\n6. Save wallet data and purchase information \n7. Exit Progam" << std::endl;
+        << "\n6. Save wallet data and purchase information \n7. Exit Program" << std::endl;
         std::cin >> select;
 	}
 	}
