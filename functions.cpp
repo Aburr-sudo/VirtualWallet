@@ -32,7 +32,8 @@ std::string hashTablePurchaseTypes[PURCHASETYPES] = {};
 std::string purchaseRecords[MAX_PURCHASES] = {};
 double purchasePrices[MAX_PURCHASES]  = {0};
 std::vector<Reciept> RecieptRepository; // vector to be populated with receipt objects
-
+bool is_modified = false;
+bool is_saved = false;
 
 //class functions
 Wallet::Wallet()
@@ -175,6 +176,7 @@ while(continueLoop)
 	purchasePrices[purchaseCounter++] = spending;
 	obj.contents = obj.contents - (spending);
 	hashTable[hashValue] += spending;
+	is_modified = true;
 
 printf("Remaining disposable funds: $%.2f\n", obj.contents);
 	}
@@ -475,11 +477,29 @@ void clearData()
 
 }
 
+void exit_program(Wallet &wallet)
+{
+
+    if(is_modified == true && is_saved == false)
+    {
+        printf("Save changes before exiting? (y/n) \n");
+    }
+    char choice;
+    std::cin >> choice;
+    if(choice == 'y'){
+        save_data(wallet);
+    }
+    else{
+        return;
+    }
+}
+
 void openMenu(Wallet &wallet)
 {
 	char select;
     char toClear;
 	bool continueCycle = true;
+
 
 	while(continueCycle)
 	{
@@ -526,12 +546,14 @@ void openMenu(Wallet &wallet)
     else if(select == '6')
     {
     save_data(wallet);
+    is_saved = true;
     std::cout << "\n\n\n\n\n";
     }
     else if(select == '7')
     {
-    printf("\nTerminating program\n");
-	continueCycle = false;
+        exit_program(wallet);
+        printf("\nTerminating program\n");
+        continueCycle = false;
 	//return;
     }
 	else{
