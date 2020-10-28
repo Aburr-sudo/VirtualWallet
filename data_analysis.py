@@ -8,13 +8,7 @@
 """
 @author: AllanBurr
 IMPORT LIBRARIES"""
-import sys
-import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import random
+
 
 
 # In[44]:
@@ -279,12 +273,27 @@ def generate_random_day(month):
 ####BEGIN PROGRAM####
 if __name__=="__main__":
     print('Executing python file')
+    try:
+        import sys
+        import os
+        import numpy as np
+        import pandas as pd
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        import random
+    except:
+        print('Required libraries not installed.')
+        print('Ensure you have an active environment with the following libraries installed:')
+        print('numpy, matplotlib, pandas')
+        print('Terminating script...')
+        exit()
     df = pd.read_csv('outputData.csv')
     printFigs(df)
     WriteToFile(df)
     writeProbabilityToFile(df)
     graphsWithoutBills(df)
     #createSeabornGraph()
+    print('\nStatistics and figures updated!\nPlease see the figures subdirectory to view the data visualisation files\n')
 
 
 
