@@ -7,8 +7,8 @@ Wallet Log:
 Once executed the program will display the remaining amount of funds and the last date that this amount was reset.
 Then the user will be given the five following options:
 
-1. Reset current funds: this will allow the user to reset their wallet's contents by updating the corresponding file with the new value
-2. Record Purchase: This allows the user to record their purchases by type, with the amount they spent on each purchase in a loop until the user has no more purchases to record.
+1. Record Purchase: This allows the user to record their purchases by type, with the amount they spent on each purchase in a loop until the user has no more purchases to record. 
+2. Reset current funds: this will allow the user to reset their wallet's contents by updating the corresponding file with the new value
 3. View recent reciepts: This allows the user to view the data stored from previous purchase logs in a human readable format. 
 4. Clear purchase history: this will erase all the data in the logged from the record purchase option. The CSV file will be wiped.
 5. Update statistics and data visualisations (execute python file)
